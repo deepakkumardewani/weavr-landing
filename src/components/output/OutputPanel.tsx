@@ -9,6 +9,14 @@ import { Timeline } from "./timeline/Timeline";
 const PIN_DISTANCE_PER_EVENT = 230;
 /** Dimmed opacity for events not yet "reached" by the scrub. */
 const DIMMED_OPACITY = 0.16;
+/** Below this width the pin/scrub is dropped for a plain scrollable transcript. */
+const SMALL_SCREEN_QUERY = "(max-width: 767px)";
+
+/** True on small screens, where pinning fights touch scroll + mobile chrome. */
+function isSmallScreen(): boolean {
+  if (typeof window === "undefined" || !window.matchMedia) return false;
+  return window.matchMedia(SMALL_SCREEN_QUERY).matches;
+}
 
 /**
  * S3 centerpiece. While not in reduced motion, the section pins and the
@@ -20,7 +28,9 @@ export function OutputPanel({ events }: { events: DemoEvent[] }) {
   const sectionRef = useRef<HTMLElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
-  const [reduced] = useState(prefersReducedMotion);
+  // The pinned scrub is dropped under reduced motion (B5) and on small screens
+  // (E3), both of which fall back to the same fully-rendered scrollable panel.
+  const [reduced] = useState(() => prefersReducedMotion() || isSmallScreen());
 
   useEffect(() => {
     if (reduced) return;

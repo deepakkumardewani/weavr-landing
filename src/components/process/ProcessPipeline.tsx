@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { registerMotion } from "../../lib/motion";
+import { SectionHeading } from "../ui/SectionHeading";
 
 const LOCAL_BADGES = ["100% local", "No AI", "Single binary"] as const;
 
@@ -52,12 +53,10 @@ export function ProcessPipeline() {
       className="relative grid min-h-dvh place-items-center bg-bg px-6 py-24 text-fg"
     >
       <div className="w-full max-w-5xl">
-        <p className="mb-3 text-center font-mono text-xs uppercase tracking-[0.2em] text-accent">
-          How it works
-        </p>
-        <h2 className="mb-16 text-center text-2xl font-medium tracking-tight sm:text-3xl">
-          Point weavr at your transcripts. Get something you can actually read.
-        </h2>
+        <SectionHeading
+          eyebrow="How it works"
+          title="Point weavr at your transcripts. Get something you can actually read."
+        />
 
         <div className="grid items-stretch gap-4 md:grid-cols-[1fr_auto_1fr_auto_1fr]">
           <Beat label="Raw JSONL" caption="~/.claude/projects/**">

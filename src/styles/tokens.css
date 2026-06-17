@@ -41,6 +41,12 @@
   --color-accent: var(--light-accent);
   --color-accent-fg: var(--light-accent-fg);
 
+  /* Accent tuned for small TEXT contrast. On the light phase the vibrant accent
+     fails AA on cream, so eyebrow labels use this deeper burnt-orange; in the
+     dark phase it matches the normal accent. Decorative accent (dots, pulses,
+     borders) keeps the vibrant value above. */
+  --color-accent-strong: 181 83 28;
+
   /* timeline dot colors (kind -> hue), phase-independent (panel is dark) */
   --color-dot-user: 240 145 95;
   --color-dot-assistant: 132 178 153;
@@ -73,6 +79,7 @@
   --color-muted: var(--dark-muted);
   --color-accent: var(--dark-accent);
   --color-accent-fg: var(--dark-accent-fg);
+  --color-accent-strong: var(--dark-accent);
 }
 
 @theme inline {
@@ -84,6 +91,7 @@
   --color-muted: rgb(var(--color-muted));
   --color-accent: rgb(var(--color-accent));
   --color-accent-fg: rgb(var(--color-accent-fg));
+  --color-accent-strong: rgb(var(--color-accent-strong));
 
   --color-dot-user: rgb(var(--color-dot-user));
   --color-dot-assistant: rgb(var(--color-dot-assistant));

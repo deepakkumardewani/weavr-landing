@@ -1,4 +1,5 @@
 import { CopyBlock } from "../ui/CopyBlock";
+import { SectionHeading } from "../ui/SectionHeading";
 
 const INSTALL_COMMANDS = [
   "brew install deepakkumardewani/weavr/weavr",
@@ -32,12 +33,9 @@ export function InstallSection() {
       aria-label="Install weavr"
       className="theme-dark bg-bg px-6 py-24 text-fg"
     >
-      <div className="mx-auto grid max-w-5xl gap-16 lg:grid-cols-2">
+      <div className="mx-auto grid max-w-5xl grid-cols-1 gap-16 lg:grid-cols-2">
         <div>
-          <p className="mb-3 font-mono text-xs uppercase tracking-[0.2em] text-accent">Install</p>
-          <h2 className="mb-8 text-2xl font-medium tracking-tight sm:text-3xl">
-            One command. No dependencies.
-          </h2>
+          <SectionHeading eyebrow="Install" title="One command. No dependencies." align="left" />
           <div className="space-y-3">
             {INSTALL_COMMANDS.map((command) => (
               <CopyBlock key={command} command={command} />
@@ -46,12 +44,11 @@ export function InstallSection() {
         </div>
 
         <div>
-          <p className="mb-3 font-mono text-xs uppercase tracking-[0.2em] text-accent">
-            Quickstart
-          </p>
-          <h2 className="mb-8 text-2xl font-medium tracking-tight sm:text-3xl">
-            From install to readable in three steps.
-          </h2>
+          <SectionHeading
+            eyebrow="Quickstart"
+            title="From install to readable in three steps."
+            align="left"
+          />
           <ol className="space-y-6">
             {QUICKSTART_STEPS.map((step, index) => (
               <li key={step.command} className="flex gap-4">

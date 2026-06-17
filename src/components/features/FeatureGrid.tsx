@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { registerMotion } from "../../lib/motion";
+import { SectionHeading } from "../ui/SectionHeading";
 
 interface Feature {
   title: string;
@@ -77,19 +78,17 @@ export function FeatureGrid() {
       className="theme-dark bg-bg px-6 py-24 text-fg"
     >
       <div className="mx-auto max-w-6xl">
-        <p className="mb-3 text-center font-mono text-xs uppercase tracking-[0.2em] text-accent">
-          Features
-        </p>
-        <h2 className="mb-16 text-center text-2xl font-medium tracking-tight sm:text-3xl">
-          Everything you need to read your sessions again.
-        </h2>
+        <SectionHeading
+          eyebrow="Features"
+          title="Everything you need to read your sessions again."
+        />
 
         <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {FEATURES.map((feature) => (
             <li
               key={feature.title}
               data-feature
-              className="rounded-xl border border-border bg-surface/50 p-6 transition-colors hover:border-accent/50"
+              className="rounded-xl border border-border bg-surface/50 p-6 transition-[colors,transform] duration-200 hover:-translate-y-0.5 hover:border-accent/50 motion-reduce:hover:translate-y-0"
             >
               <h3 className="mb-2 font-medium">{feature.title}</h3>
               <p className="text-sm leading-relaxed text-muted">{feature.body}</p>

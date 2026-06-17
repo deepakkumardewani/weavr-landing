@@ -3,6 +3,7 @@ import gsap from "gsap";
 import { SPEED_RACE, SPEED_STATS } from "../../data/stats";
 import { registerMotion } from "../../lib/motion";
 import { CountUp } from "../ui/CountUp";
+import { SectionHeading } from "../ui/SectionHeading";
 
 /**
  * S4 speed: the 46.5× story. Three count-up stats land the headline numbers and
@@ -15,12 +16,7 @@ export function SpeedStats() {
       className="theme-dark grid min-h-dvh place-items-center bg-bg px-6 py-24 text-fg"
     >
       <div className="w-full max-w-5xl">
-        <p className="mb-3 text-center font-mono text-xs uppercase tracking-[0.2em] text-accent">
-          Fast
-        </p>
-        <h2 className="mb-16 text-center text-2xl font-medium tracking-tight sm:text-3xl">
-          Built in Rust. Renders before you blink.
-        </h2>
+        <SectionHeading eyebrow="Fast" title="Built in Rust. Renders before you blink." />
 
         <div className="grid gap-6 sm:grid-cols-3">
           {SPEED_STATS.map((stat) => (

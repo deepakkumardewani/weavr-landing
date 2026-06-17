@@ -29,7 +29,7 @@ export function Footer() {
             </a>
           ))}
         </nav>
-        <p className="text-xs text-muted/70">
+        <p className="text-xs text-muted">
           Built with{" "}
           <a
             href={LINKS.claudeCodeLog}

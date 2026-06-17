@@ -67,6 +67,10 @@ export function HeroJsonl() {
       aria-label="Unreadable Claude Code transcript"
       className="relative grid h-dvh place-items-center overflow-hidden bg-bg"
     >
+      {/* The hero is a deliberate wordless visual; this gives assistive tech and
+          search engines the page's single h1 without altering the design. */}
+      <h1 className="sr-only">weavr — turn unreadable Claude Code JSONL into beautiful HTML</h1>
+
       <pre
         ref={wallRef}
         aria-hidden="true"
