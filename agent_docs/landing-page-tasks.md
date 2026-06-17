@@ -46,7 +46,7 @@ Legend: `[ ]` todo · `AC` = acceptance criteria.
   `data/demo-jsonl.ts` — serialize `DemoEvent[]` → raw JSONL string for the hero.
   - AC: output looks like genuine Claude Code transcript lines.
 
-- [ ] **B3. Dot-timeline renderers.**
+- [x] **B3. Dot-timeline renderers.**
   `components/output/timeline/*` — `Dot`, `UserMessage`, `AssistantMessage`,
   `ThinkingBlock`, `ToolCard`, `DiffView`. Styled to weavr's Material 3 output.
   - AC: rendering the full demo session looks like real weavr HTML output.

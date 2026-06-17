@@ -1,11 +1,11 @@
 import { useEffect } from "react";
 import { useScrollBridge } from "./hooks/useScrollBridge";
-import { Timeline } from "./components/output/timeline/Timeline";
+import { OutputPanel } from "./components/output/OutputPanel";
 import { demoSession } from "./data/demo-session";
 
 /**
- * Composition root. Phase B is wiring up the centerpiece; this currently mounts
- * the dot-timeline in the dark phase for verification. Phase C stitches the
+ * Composition root. Phase B mounts the centerpiece (S3) in the dark phase with
+ * lead-in/lead-out space so the pinned scrub has room. Phase C wraps it in the
  * full hero -> process -> output narrative.
  */
 export default function App() {
@@ -17,10 +17,14 @@ export default function App() {
   }, []);
 
   return (
-    <main className="min-h-dvh bg-bg text-fg">
-      <div className="mx-auto max-w-2xl px-6 py-20">
-        <Timeline events={demoSession} />
-      </div>
+    <main className="bg-bg text-fg">
+      <section className="grid min-h-dvh place-items-center">
+        <p className="font-mono text-sm text-muted">scroll to weavr output ↓</p>
+      </section>
+      <OutputPanel events={demoSession} />
+      <section className="grid min-h-dvh place-items-center">
+        <p className="font-mono text-sm text-muted">…and out</p>
+      </section>
     </main>
   );
 }
