@@ -1,0 +1,71 @@
+/**
+ * weavr design tokens — Material 3 warm-neutral.
+ *
+ * Two phases drive the scroll narrative: LIGHT (the problem) -> DARK (weavr's
+ * output). Each semantic color is stored twice as space-separated RGB channels:
+ *   --light-<name>  start-of-scroll value
+ *   --dark-<name>   end-of-scroll value
+ * The active value --color-<name> defaults to the light phase; `theme-scroll.ts`
+ * interpolates the channels onto :root as the page scrolls. Consume colors with
+ * rgb(var(--color-<name>)) — or the Tailwind utilities mapped in @theme below.
+ */
+
+:root {
+  /* --- LIGHT phase (problem) --- */
+  --light-bg: 250 248 245;
+  --light-fg: 28 26 23;
+  --light-surface: 242 239 234;
+  --light-surface-2: 232 228 221;
+  --light-border: 216 210 200;
+  --light-muted: 107 100 89;
+  --light-accent: 234 122 77;
+  --light-accent-fg: 28 18 12;
+
+  /* --- DARK phase (weavr output) --- */
+  --dark-bg: 26 24 21;
+  --dark-fg: 236 230 219;
+  --dark-surface: 35 32 25;
+  --dark-surface-2: 45 41 32;
+  --dark-border: 58 53 43;
+  --dark-muted: 163 154 138;
+  --dark-accent: 240 145 95;
+  --dark-accent-fg: 26 16 10;
+
+  /* --- active values (interpolated at runtime; default = light) --- */
+  --color-bg: var(--light-bg);
+  --color-fg: var(--light-fg);
+  --color-surface: var(--light-surface);
+  --color-surface-2: var(--light-surface-2);
+  --color-border: var(--light-border);
+  --color-muted: var(--light-muted);
+  --color-accent: var(--light-accent);
+  --color-accent-fg: var(--light-accent-fg);
+
+  /* fonts */
+  --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+
+/* Static dark phase for reduced-motion: settle straight to the dark palette. */
+:root[data-phase="dark"] {
+  --color-bg: var(--dark-bg);
+  --color-fg: var(--dark-fg);
+  --color-surface: var(--dark-surface);
+  --color-surface-2: var(--dark-surface-2);
+  --color-border: var(--dark-border);
+  --color-muted: var(--dark-muted);
+  --color-accent: var(--dark-accent);
+  --color-accent-fg: var(--dark-accent-fg);
+}
+
+@theme inline {
+  --color-bg: rgb(var(--color-bg));
+  --color-fg: rgb(var(--color-fg));
+  --color-surface: rgb(var(--color-surface));
+  --color-surface-2: rgb(var(--color-surface-2));
+  --color-border: rgb(var(--color-border));
+  --color-muted: rgb(var(--color-muted));
+  --color-accent: rgb(var(--color-accent));
+  --color-accent-fg: rgb(var(--color-accent-fg));
+
+  --font-mono: var(--font-mono);
+}
