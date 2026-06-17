@@ -11,7 +11,7 @@ A single-page, **scroll-driven story site** that takes a Claude Code user from
 "raw JSONL is unreadable" → "weavr transforms it" → "look how beautiful and fast
 the output is" → "here's how to install it."
 
-The page is the demo. Scrolling *is* the narrative: as the visitor scrolls, the
+The page is the demo. Scrolling _is_ the narrative: as the visitor scrolls, the
 theme transitions **light → dark**, mirroring weavr turning a messy problem into
 an elegant artefact.
 
@@ -19,7 +19,7 @@ an elegant artefact.
 - **User:** Developers who use Claude Code and have piles of `~/.claude/projects/**/*.jsonl` transcripts they cannot read.
 - **Success criteria:**
   - The "before → process → after" story is legible without reading a word of body copy.
-  - The output section *feels* like real weavr output (Material 3 dot-timeline).
+  - The output section _feels_ like real weavr output (Material 3 dot-timeline).
   - The speed story (18–46× faster) lands with impact.
   - Motion is smooth (target 60fps) and fully respects `prefers-reduced-motion`.
   - Lighthouse: Performance ≥ 90, Accessibility ≥ 95 on desktop.
@@ -39,32 +39,35 @@ an elegant artefact.
 
 ## 3. Tech Stack
 
-| Concern            | Choice                                                            |
-| ------------------ | ----------------------------------------------------------------- |
-| Tooling / dev      | **Viteplus** (`vp` commands) — via the `/viteplus` skill          |
-| Framework          | React + TypeScript                                                |
-| Styling            | Tailwind CSS                                                      |
-| Smooth scroll      | **Lenis** (inertial scroll)                                       |
-| Scroll choreography| **GSAP + ScrollTrigger** (pin, scrub, timelines) — `/gsap-core`   |
-| Accent components  | **reactbits** (decorative / accent only)                          |
-| Deploy             | **Vercel** (static build)                                         |
-| Repo / folder      | `weavr-landing`                                                   |
+| Concern             | Choice                                                          |
+| ------------------- | --------------------------------------------------------------- |
+| Tooling / dev       | **Viteplus** (`vp` commands) — via the `/viteplus` skill        |
+| Framework           | React + TypeScript                                              |
+| Styling             | Tailwind CSS                                                    |
+| Smooth scroll       | **Lenis** (inertial scroll)                                     |
+| Scroll choreography | **GSAP + ScrollTrigger** (pin, scrub, timelines) — `/gsap-core` |
+| Accent components   | **reactbits** (decorative / accent only)                        |
+| Deploy              | **Vercel** (static build)                                       |
+| Repo / folder       | `weavr-landing`                                                 |
 
 ---
 
 ## 4. Page Narrative (sections, in scroll order)
 
 ### S0 — Header (fixed)
+
 - Logo (weavr wordmark/mark) on the **left**.
 - GitHub icon on the **right** → `https://github.com/deepakkumardewani/weavr`.
 - Header adapts to the light→dark scroll transition (contrast-aware).
 
 ### S1 — Hero · "The problem" (LIGHT, harsh)
+
 - Full-viewport. A wall of **raw, unreadable JSONL** (genuine-looking Claude Code transcript lines: `{"type":"user",...}`, escaped content, token noise).
 - No buttons. Minimal, tense framing. The mess is the message.
 - Subtle motion: lines drift / flicker; cursor blink; "you can't read this" tension.
 
 ### S2 — Process · "How it works" (LIGHT → transitioning)
+
 - Simplest-terms, 3-beat explainer, revealed on scroll:
   `~/.claude/projects/**/*.jsonl` → **weavr** (parse → session DAG → SQLite cache → render) → **beautiful self-contained HTML**.
 - Animated pipeline: raw JSONL visibly flows into weavr and emerges structured.
@@ -72,6 +75,7 @@ an elegant artefact.
 - Theme begins shifting toward dark as weavr "does its work."
 
 ### S3 — Output · "The result" (DARK) — **centerpiece**
+
 - The theme is now fully dark (warm-neutral Material 3, echoing weavr's real output).
 - A **pinned conversation panel** styled as weavr's flat dot-timeline.
 - As the visitor scrolls, the **page stays pinned** and the **conversation scrolls/reveals inside the panel** — user messages, assistant text, thinking blocks, tool cards (Bash IN/OUT, Read/Edit diffs).
@@ -79,20 +83,24 @@ an elegant artefact.
 - On reduced-motion: panel becomes a normal scrollable, fully-rendered transcript.
 
 ### S4 — Speed · "Fast" (DARK)
+
 - The 18–46× faster story vs `claude-code-log`.
 - Animated count-up stats: `~1.3s` all-projects, `~28ms` single session, `46.5×` speedup.
 - Optional race-bar visual (weavr vs Python) that fills on scroll.
 
 ### S5 — Features (DARK)
+
 - Concise grid of key differentiators: Self-contained HTML, Light/Dark themes, Markdown export + detail levels, Rich tool rendering, Token tracking, Multi-project export, SQLite incremental cache, 100% local.
 
 ### S6 — Install & Quickstart (DARK)
+
 - On-page sections (no separate routes).
 - **Install**: copy-to-clipboard command blocks — `brew install deepakkumardewani/weavr/weavr`, `cargo binstall weavr`, `cargo install weavr`.
 - **Quickstart**: 3 steps — install → export a session (`weavr -i …`) → export everything (`weavr --all-projects --open-browser`).
 - Copy buttons with success feedback.
 
 ### S7 — Footer (DARK)
+
 - Links: GitHub, crates.io, License (MIT), claude-code-log credit.
 - Subtle close-out; reinforce "100% local, no AI."
 
@@ -107,8 +115,13 @@ type DemoEvent =
   | { kind: "user"; text: string; ts?: string }
   | { kind: "assistant"; text: string; tokens?: { in: number; out: number } }
   | { kind: "thinking"; text: string }
-  | { kind: "tool"; name: "Bash" | "Read" | "Edit" | "Write" | "Grep";
-      input: string; output?: string; diff?: DiffHunk[] };
+  | {
+      kind: "tool";
+      name: "Bash" | "Read" | "Edit" | "Write" | "Grep";
+      input: string;
+      output?: string;
+      diff?: DiffHunk[];
+    };
 ```
 
 - Content must look like a real, coherent Claude Code session (e.g. a small bug-fix

@@ -1,15 +1,21 @@
 import { useRef } from "react";
 import { useScrollBridge } from "./hooks/useScrollBridge";
 import { useThemeScroll } from "./hooks/useThemeScroll";
+import { Header } from "./components/layout/Header";
 import { HeroJsonl } from "./components/hero/HeroJsonl";
 import { ProcessPipeline } from "./components/process/ProcessPipeline";
 import { OutputPanel } from "./components/output/OutputPanel";
+import { SpeedStats } from "./components/speed/SpeedStats";
+import { FeatureGrid } from "./components/features/FeatureGrid";
+import { InstallSection } from "./components/install/InstallSection";
+import { Footer } from "./components/layout/Footer";
 import { demoSession } from "./data/demo-session";
 
 /**
- * Composition root. Phase C drives the light -> dark palette from scroll. The
- * full hero -> process -> output narrative is stitched in C4; for now the theme
- * spans a lead-in, the centerpiece, and a lead-out.
+ * Composition root. The page is one continuous light -> dark scroll: hero (S1)
+ * and process (S2) ride the interpolated palette, then everything from the
+ * output centerpiece (S3) down is pinned dark via `.theme-dark` so the
+ * supporting sections read as weavr's finished, dark-mode artefact.
  */
 export default function App() {
   useScrollBridge();
@@ -17,15 +23,19 @@ export default function App() {
   useThemeScroll(outputRef);
 
   return (
-    <main className="bg-bg text-fg">
-      <HeroJsonl />
-      <ProcessPipeline />
-      <div ref={outputRef}>
-        <OutputPanel events={demoSession} />
-      </div>
-      <section className="grid min-h-dvh place-items-center">
-        <p className="font-mono text-sm text-muted">…and out</p>
-      </section>
-    </main>
+    <>
+      <Header />
+      <main id="top" className="bg-bg text-fg">
+        <HeroJsonl />
+        <ProcessPipeline />
+        <div ref={outputRef}>
+          <OutputPanel events={demoSession} />
+        </div>
+        <SpeedStats />
+        <FeatureGrid />
+        <InstallSection />
+      </main>
+      <Footer />
+    </>
   );
 }

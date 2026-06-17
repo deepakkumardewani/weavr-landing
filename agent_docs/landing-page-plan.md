@@ -42,6 +42,7 @@ src/
 ```
 
 ### Key technical decisions
+
 - **One global scroll source of truth.** Lenis drives scroll; a single GSAP
   ScrollTrigger reports overall progress, which feeds `theme-scroll.ts`. Section
   animations are independent ScrollTriggers. No competing scroll listeners.
@@ -63,7 +64,7 @@ ScrollTrigger bridge, reduced-motion harness, deploy skeleton to Vercel. Prove t
 plumbing (a smooth-scrolling empty page that deploys) before any content.
 
 **Phase B — The risky centerpiece (S3).** Build the demo data model and the
-pinned, scroll-scrubbed conversation panel + dot-timeline renderers *first*. If
+pinned, scroll-scrubbed conversation panel + dot-timeline renderers _first_. If
 the pin/scrub interaction can't be made buttery, everything else must adapt — so
 prove it now.
 
@@ -83,14 +84,14 @@ pinned scrub) and leaves only low-risk content/polish at the end.
 
 ## 3. Risks & Mitigations
 
-| Risk | Mitigation |
-| ---- | ---------- |
-| Pinned scrub feels janky / fights Lenis | Single RAF loop bridging Lenis→ScrollTrigger; animate transform/opacity only; test on mid-tier hardware early (Phase B). |
-| Light→dark transition causes flashing / contrast failures | Interpolate via CSS vars (no re-render); verify AA contrast at several scroll midpoints. |
-| Reduced-motion users get a broken/empty page | Build static fallbacks alongside each animation, not after. Panel → normal scroll list; theme → settles to dark; pipeline → static diagram. |
-| Demo content feels fake | Author one coherent bug-fix session with realistic tool calls/diffs; review for authenticity. |
-| Mobile: pinning long sections is awkward | Define mobile behavior per section (shorten/disable pin, stack pipeline) during Phase E; don't pin aggressively on small viewports. |
-| Bundle bloat from GSAP/reactbits | Import only used GSAP plugins; use reactbits sparingly (accents only); check bundle in Phase E. |
+| Risk                                                      | Mitigation                                                                                                                                  |
+| --------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| Pinned scrub feels janky / fights Lenis                   | Single RAF loop bridging Lenis→ScrollTrigger; animate transform/opacity only; test on mid-tier hardware early (Phase B).                    |
+| Light→dark transition causes flashing / contrast failures | Interpolate via CSS vars (no re-render); verify AA contrast at several scroll midpoints.                                                    |
+| Reduced-motion users get a broken/empty page              | Build static fallbacks alongside each animation, not after. Panel → normal scroll list; theme → settles to dark; pipeline → static diagram. |
+| Demo content feels fake                                   | Author one coherent bug-fix session with realistic tool calls/diffs; review for authenticity.                                               |
+| Mobile: pinning long sections is awkward                  | Define mobile behavior per section (shorten/disable pin, stack pipeline) during Phase E; don't pin aggressively on small viewports.         |
+| Bundle bloat from GSAP/reactbits                          | Import only used GSAP plugins; use reactbits sparingly (accents only); check bundle in Phase E.                                             |
 
 ---
 
