@@ -112,32 +112,32 @@ Legend: `[ ]` todo · `AC` = acceptance criteria.
 
 ## Phase E — Polish & Ship
 
-- [ ] **E1. Design pass.**
+- [x] **E1. Design pass.**
       Finalize accent color + type pairing; tighten spacing/rhythm; remove generic-AI feel.
   - AC: passes a `/premium-website-design` review; feels Awwwards-grade.
 
-- [ ] **E2. Micro-interactions.**
+- [x] **E2. Micro-interactions.**
       Hover/focus states, copy feedback, subtle reveals; nothing gratuitous.
   - AC: interactions feel intentional and consistent.
 
-- [ ] **E3. Responsive pass.**
+- [x] **E3. Responsive pass.**
       Define per-section mobile behavior (reduce/disable pinning, stack pipeline).
   - AC: clean on mobile / tablet / desktop; no horizontal overflow; pinning sane on small screens.
 
-- [ ] **E4. Accessibility + reduced-motion audit.**
+- [x] **E4. Accessibility + reduced-motion audit.**
       Semantic landmarks, focus-visible, keyboard nav, AA contrast in both phases, full
       reduced-motion fallbacks.
   - AC: keyboard-only traversal works; reduced-motion path is complete and legible.
 
-- [ ] **E5. Performance + Lighthouse.**
+- [x] **E5. Performance + Lighthouse.**
       Audit bundle (trim GSAP plugins/reactbits), lazy-mount heavy sections.
   - AC: Lighthouse Perf ≥ 90, A11y ≥ 95 on desktop; scrub holds 60fps.
 
-- [ ] **E6. SEO/meta + production deploy.**
+- [x] **E6. SEO/meta + production deploy.**
       OG tags, title/description, favicon; promote to Vercel production.
   - AC: production URL live; OG preview renders; meta present.
 
-- [ ] **E7. Browser verification.**
+- [x] **E7. Browser verification.**
       Use the **agent-browser** skill to scroll-through and screenshot the full journey.
   - AC: screenshots confirm the light→dark story and pinned conversation across breakpoints.
 
