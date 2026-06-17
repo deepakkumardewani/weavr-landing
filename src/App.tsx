@@ -1,6 +1,7 @@
 import { useRef } from "react";
 import { useScrollBridge } from "./hooks/useScrollBridge";
 import { useThemeScroll } from "./hooks/useThemeScroll";
+import { HeroJsonl } from "./components/hero/HeroJsonl";
 import { OutputPanel } from "./components/output/OutputPanel";
 import { demoSession } from "./data/demo-session";
 
@@ -16,9 +17,7 @@ export default function App() {
 
   return (
     <main className="bg-bg text-fg">
-      <section className="grid min-h-dvh place-items-center">
-        <p className="font-mono text-sm text-muted">scroll to weavr output ↓</p>
-      </section>
+      <HeroJsonl />
       <div ref={outputRef}>
         <OutputPanel events={demoSession} />
       </div>

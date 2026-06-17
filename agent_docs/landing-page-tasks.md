@@ -63,7 +63,7 @@ Legend: `[ ]` todo · `AC` = acceptance criteria.
 
 ## Phase C — Theme narrative (S1, S2, transition)
 
-- [ ] **C1. Light→dark scroll interpolation.**
+- [x] **C1. Light→dark scroll interpolation.**
   `lib/theme-scroll.ts` — interpolate token CSS vars on `:root` from global scroll
   progress (light at top → dark by S3).
   - AC: scrolling continuously shifts the palette; AA contrast holds at midpoints.
