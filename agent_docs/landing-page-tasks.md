@@ -68,7 +68,7 @@ Legend: `[ ]` todo · `AC` = acceptance criteria.
   progress (light at top → dark by S3).
   - AC: scrolling continuously shifts the palette; AA contrast holds at midpoints.
 
-- [ ] **C2. Hero (S1) raw-JSONL wall.**
+- [x] **C2. Hero (S1) raw-JSONL wall.**
   `components/hero/HeroJsonl.tsx` — full-viewport unreadable JSONL (from B2), tension
   motion (drift/flicker/cursor). **No buttons.**
   - AC: hero is pure visual hook; reads as "you can't read this"; no CTA present.

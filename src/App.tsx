@@ -2,6 +2,7 @@ import { useRef } from "react";
 import { useScrollBridge } from "./hooks/useScrollBridge";
 import { useThemeScroll } from "./hooks/useThemeScroll";
 import { HeroJsonl } from "./components/hero/HeroJsonl";
+import { ProcessPipeline } from "./components/process/ProcessPipeline";
 import { OutputPanel } from "./components/output/OutputPanel";
 import { demoSession } from "./data/demo-session";
 
@@ -18,6 +19,7 @@ export default function App() {
   return (
     <main className="bg-bg text-fg">
       <HeroJsonl />
+      <ProcessPipeline />
       <div ref={outputRef}>
         <OutputPanel events={demoSession} />
       </div>
