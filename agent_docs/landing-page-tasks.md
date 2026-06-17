@@ -10,11 +10,11 @@ Legend: `[ ]` todo · `AC` = acceptance criteria.
 
 ## Phase A — Foundation
 
-- [ ] **A1. Scaffold project (Viteplus + React + TS).**
+- [x] **A1. Scaffold project (Viteplus + React + TS).**
   Use the `/viteplus` skill to scaffold under `weavr-landing/`. Add Tailwind.
   - AC: `vp dev` serves a blank page; TS + Tailwind compile clean.
 
-- [ ] **A2. Design tokens.**
+- [x] **A2. Design tokens.**
   `styles/tokens.css` — Material 3 warm-neutral tokens for both light and dark
   phases as CSS custom properties; Tailwind configured to read `var(--…)`.
   - AC: a test element reflects token vars; switching `:root` values updates it.
