@@ -19,11 +19,11 @@ Legend: `[ ]` todo · `AC` = acceptance criteria.
   phases as CSS custom properties; Tailwind configured to read `var(--…)`.
   - AC: a test element reflects token vars; switching `:root` values updates it.
 
-- [ ] **A3. Smooth-scroll + ScrollTrigger bridge.**
+- [x] **A3. Smooth-scroll + ScrollTrigger bridge.**
   `lib/lenis.ts` — Lenis instance bridged to GSAP ScrollTrigger via one RAF loop.
   - AC: page scrolls with inertia; a sample ScrollTrigger fires at correct progress.
 
-- [ ] **A4. Reduced-motion harness.**
+- [x] **A4. Reduced-motion harness.**
   `lib/motion.ts` — detect `prefers-reduced-motion`; shared GSAP defaults; helper
   to register motion-or-static.
   - AC: with reduced-motion on, animations are skipped and static state shows.
