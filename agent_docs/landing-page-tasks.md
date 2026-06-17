@@ -51,12 +51,12 @@ Legend: `[ ]` todo · `AC` = acceptance criteria.
   `ThinkingBlock`, `ToolCard`, `DiffView`. Styled to weavr's Material 3 output.
   - AC: rendering the full demo session looks like real weavr HTML output.
 
-- [ ] **B4. Pinned, scroll-scrubbed panel.**
+- [x] **B4. Pinned, scroll-scrubbed panel.**
   `components/output/OutputPanel.tsx` — GSAP pin the section; scrub message
   reveals to scroll distance so the page holds while the conversation advances.
   - AC: scrolling pins the page and walks through the conversation at 60fps.
 
-- [ ] **B5. Output reduced-motion fallback.**
+- [x] **B5. Output reduced-motion fallback.**
   - AC: with reduced-motion, panel is a normal scrollable, fully-rendered transcript (no pin).
 
 ---
