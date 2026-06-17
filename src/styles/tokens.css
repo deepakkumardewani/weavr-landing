@@ -41,6 +41,18 @@
   --color-accent: var(--light-accent);
   --color-accent-fg: var(--light-accent-fg);
 
+  /* timeline dot colors (kind -> hue), phase-independent (panel is dark) */
+  --color-dot-user: 240 145 95;
+  --color-dot-assistant: 132 178 153;
+  --color-dot-thinking: 150 140 125;
+  --color-dot-tool: 150 170 210;
+
+  /* diff colors — warm-tinted green/red */
+  --color-diff-add: 150 200 165;
+  --color-diff-add-bg: 38 58 44;
+  --color-diff-remove: 222 150 140;
+  --color-diff-remove-bg: 62 40 38;
+
   /* fonts */
   --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
 }
@@ -66,6 +78,16 @@
   --color-muted: rgb(var(--color-muted));
   --color-accent: rgb(var(--color-accent));
   --color-accent-fg: rgb(var(--color-accent-fg));
+
+  --color-dot-user: rgb(var(--color-dot-user));
+  --color-dot-assistant: rgb(var(--color-dot-assistant));
+  --color-dot-thinking: rgb(var(--color-dot-thinking));
+  --color-dot-tool: rgb(var(--color-dot-tool));
+
+  --color-diff-add: rgb(var(--color-diff-add));
+  --color-diff-add-bg: rgb(var(--color-diff-add-bg));
+  --color-diff-remove: rgb(var(--color-diff-remove));
+  --color-diff-remove-bg: rgb(var(--color-diff-remove-bg));
 
   --font-mono: var(--font-mono);
 }

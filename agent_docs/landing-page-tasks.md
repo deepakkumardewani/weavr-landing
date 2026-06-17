@@ -36,13 +36,13 @@ Legend: `[ ]` todo · `AC` = acceptance criteria.
 
 ## Phase B — Centerpiece (S3 Output panel) — *de-risk first*
 
-- [ ] **B1. Demo data model + content.**
+- [x] **B1. Demo data model + content.**
   `data/demo-session.ts` (typed `DemoEvent[]`) — one coherent, realistic Claude
   Code bug-fix session: user msgs, assistant text, thinking, Bash/Read/Edit tool
   calls with a real-looking diff.
   - AC: data typed; content reads as authentic, not lorem.
 
-- [ ] **B2. JSONL serializer.**
+- [x] **B2. JSONL serializer.**
   `data/demo-jsonl.ts` — serialize `DemoEvent[]` → raw JSONL string for the hero.
   - AC: output looks like genuine Claude Code transcript lines.
 
