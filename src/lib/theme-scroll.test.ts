@@ -7,6 +7,8 @@ import {
   lerpRgb,
   parseTriplet,
   relativeLuminance,
+  smoothstep,
+  themeEase,
   type Rgb,
 } from "./theme-scroll";
 
@@ -55,6 +57,22 @@ test("createThemeScroller writes light at 0 and dark at 1", () => {
   expect(root.style.getPropertyValue("--color-bg")).toBe("26 24 21");
   apply(0.5);
   expect(root.style.getPropertyValue("--color-bg")).toBe("138 136 133");
+});
+
+test("smoothstep eases endpoints and is symmetric at the middle", () => {
+  expect(smoothstep(0)).toBe(0);
+  expect(smoothstep(1)).toBe(1);
+  expect(smoothstep(0.5)).toBeCloseTo(0.5, 5);
+  expect(smoothstep(-1)).toBe(0);
+  expect(smoothstep(2)).toBe(1);
+});
+
+test("themeEase holds light through the hold window, then ramps to dark", () => {
+  expect(themeEase(0)).toBe(0);
+  expect(themeEase(0.4)).toBe(0); // still within the hold -> light
+  expect(themeEase(1)).toBe(1);
+  expect(themeEase(0.85)).toBeGreaterThan(0);
+  expect(themeEase(0.85)).toBeLessThan(1);
 });
 
 test("both phase endpoints clear AA contrast for body text", () => {

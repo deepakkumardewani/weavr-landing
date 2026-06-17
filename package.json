@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "vp dev",
     "build": "tsc && vp build",
-    "preview": "vp preview"
+    "preview": "vp preview",
+    "format:write": "vp check --fix"
   },
   "dependencies": {
     "gsap": "^3.15.0",

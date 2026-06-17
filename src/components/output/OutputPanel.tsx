@@ -70,7 +70,7 @@ export function OutputPanel({ events }: { events: DemoEvent[] }) {
     <section
       ref={sectionRef}
       aria-label="weavr output"
-      className="flex min-h-dvh items-center justify-center bg-bg px-6 py-16 text-fg"
+      className="theme-dark flex min-h-dvh items-center justify-center bg-bg px-6 py-16 text-fg"
     >
       <div className="w-full max-w-3xl">
         <WindowChrome />

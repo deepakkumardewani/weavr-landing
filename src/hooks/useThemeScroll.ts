@@ -1,6 +1,6 @@
 import { useEffect, type RefObject } from "react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { createThemeScroller } from "../lib/theme-scroll";
+import { createThemeScroller, themeEase } from "../lib/theme-scroll";
 import { prefersReducedMotion } from "../lib/motion";
 
 /**
@@ -21,11 +21,13 @@ export function useThemeScroll(endRef?: RefObject<HTMLElement | null>): void {
     apply(0);
     const trigger = ScrollTrigger.create({
       start: 0,
+      // End where the output section reaches the top of the viewport, so the
+      // palette is fully dark exactly as the centerpiece pins.
       end: () => {
         const el = endRef?.current;
-        return el ? el.offsetTop + el.offsetHeight : ScrollTrigger.maxScroll(window);
+        return el ? el.offsetTop : ScrollTrigger.maxScroll(window);
       },
-      onUpdate: (self) => apply(self.progress),
+      onUpdate: (self) => apply(themeEase(self.progress)),
       invalidateOnRefresh: true,
     });
 

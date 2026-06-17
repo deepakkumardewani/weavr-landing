@@ -32,6 +32,24 @@ export function lerp(a: number, b: number, t: number): number {
   return a + (b - a) * t;
 }
 
+/** Smoothstep — eases in and out of a 0..1 ramp. */
+export function smoothstep(t: number): number {
+  const c = clamp01(t);
+  return c * c * (3 - 2 * c);
+}
+
+/**
+ * Scroll progress -> theme progress. The palette holds light through the hero
+ * and most of the process section, then ramps to dark so the low-contrast
+ * mid-gray crossover lands in the process->output gap (off text) and the panel
+ * is fully dark by the time it pins.
+ */
+const THEME_HOLD = 0.72;
+export function themeEase(progress: number): number {
+  const t = (clamp01(progress) - THEME_HOLD) / (1 - THEME_HOLD);
+  return smoothstep(t);
+}
+
 export function parseTriplet(value: string): Rgb {
   const parts = value.trim().split(/\s+/).map(Number);
   if (parts.length !== 3 || parts.some(Number.isNaN)) {

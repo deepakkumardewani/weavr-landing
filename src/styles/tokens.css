@@ -57,8 +57,14 @@
   --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
 }
 
-/* Static dark phase for reduced-motion: settle straight to the dark palette. */
-:root[data-phase="dark"] {
+/**
+ * Force the dark palette on a subtree, independent of the scroll transition.
+ * `:root[data-phase="dark"]` settles the whole page dark (reduced motion);
+ * `.theme-dark` scopes it to a section (the output panel reads crisp the moment
+ * it enters, even while the page is still mid-transition behind it).
+ */
+:root[data-phase="dark"],
+.theme-dark {
   --color-bg: var(--dark-bg);
   --color-fg: var(--dark-fg);
   --color-surface: var(--dark-surface);

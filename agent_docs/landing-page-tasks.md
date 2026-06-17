@@ -73,7 +73,7 @@ Legend: `[ ]` todo · `AC` = acceptance criteria.
   motion (drift/flicker/cursor). **No buttons.**
   - AC: hero is pure visual hook; reads as "you can't read this"; no CTA present.
 
-- [ ] **C3. Process (S2) pipeline.**
+- [x] **C3. Process (S2) pipeline.**
   `components/process/ProcessPipeline.tsx` — animated `jsonl → weavr → html`
   3-beat explainer; raw flows in, structured emerges; reinforces local/no-AI.
   - AC: a non-technical viewer grasps the flow from animation alone; static fallback is a clear diagram.
