@@ -1,27 +1,27 @@
-import { useEffect } from "react";
+import { useRef } from "react";
 import { useScrollBridge } from "./hooks/useScrollBridge";
+import { useThemeScroll } from "./hooks/useThemeScroll";
 import { OutputPanel } from "./components/output/OutputPanel";
 import { demoSession } from "./data/demo-session";
 
 /**
- * Composition root. Phase B mounts the centerpiece (S3) in the dark phase with
- * lead-in/lead-out space so the pinned scrub has room. Phase C wraps it in the
- * full hero -> process -> output narrative.
+ * Composition root. Phase C drives the light -> dark palette from scroll. The
+ * full hero -> process -> output narrative is stitched in C4; for now the theme
+ * spans a lead-in, the centerpiece, and a lead-out.
  */
 export default function App() {
   useScrollBridge();
-
-  useEffect(() => {
-    document.documentElement.setAttribute("data-phase", "dark");
-    return () => document.documentElement.removeAttribute("data-phase");
-  }, []);
+  const outputRef = useRef<HTMLDivElement>(null);
+  useThemeScroll(outputRef);
 
   return (
     <main className="bg-bg text-fg">
       <section className="grid min-h-dvh place-items-center">
         <p className="font-mono text-sm text-muted">scroll to weavr output ↓</p>
       </section>
-      <OutputPanel events={demoSession} />
+      <div ref={outputRef}>
+        <OutputPanel events={demoSession} />
+      </div>
       <section className="grid min-h-dvh place-items-center">
         <p className="font-mono text-sm text-muted">…and out</p>
       </section>
