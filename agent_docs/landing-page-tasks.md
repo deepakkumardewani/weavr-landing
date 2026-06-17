@@ -28,7 +28,7 @@ Legend: `[ ]` todo · `AC` = acceptance criteria.
   to register motion-or-static.
   - AC: with reduced-motion on, animations are skipped and static state shows.
 
-- [ ] **A5. Deploy skeleton to Vercel + repo remote.**
+- [x] **A5. Deploy skeleton to Vercel + repo remote.**
   Create GitHub repo `weavr-landing`, add remote, push; connect Vercel.
   - AC: blank app builds and serves on a Vercel preview URL.
 

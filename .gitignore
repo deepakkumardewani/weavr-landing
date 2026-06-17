@@ -26,3 +26,7 @@ dist-ssr
 # Vite+ / build
 .vite-plus
 coverage
+.vercel
+
+# Vercel
+.vercel
