@@ -78,7 +78,7 @@ Legend: `[ ]` todo · `AC` = acceptance criteria.
   3-beat explainer; raw flows in, structured emerges; reinforces local/no-AI.
   - AC: a non-technical viewer grasps the flow from animation alone; static fallback is a clear diagram.
 
-- [ ] **C4. Stitch S1→S2→S3 transition.**
+- [x] **C4. Stitch S1→S2→S3 transition.**
   - AC: hero→process→output reads as one continuous light→dark transformation.
 
 ---
