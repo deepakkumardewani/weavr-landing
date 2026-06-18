@@ -9,10 +9,14 @@ afterEach(() => {
   globalThis.__reducedMotion = false;
 });
 
-test("renders an unreadable JSONL wall and no buttons (hero has no CTA)", () => {
+test("frames the promise with headline + subline over a JSONL texture, no CTA", () => {
   const { container } = render(<HeroJsonl />);
-  expect(screen.getByLabelText("Unreadable Claude Code transcript")).toBeInTheDocument();
-  // The wall is genuine transcript JSONL.
+  // The framing copy is the focal layer and the page's single h1.
+  expect(
+    screen.getByRole("heading", { level: 1, name: /make your claude code transcripts readable/i }),
+  ).toBeInTheDocument();
+  expect(screen.getByText(/100% local, no ai/i)).toBeInTheDocument();
+  // The dimmed background is still genuine transcript JSONL.
   expect(container.textContent).toContain('"role"');
   // Hard constraint: no buttons / CTAs in the hero.
   expect(container.querySelectorAll("button").length).toBe(0);

@@ -3,15 +3,21 @@ import gsap from "gsap";
 import { demoSession } from "../../data/demo-session";
 import { toJsonl } from "../../data/demo-jsonl";
 import { registerMotion } from "../../lib/motion";
+import { ScrollCue } from "./ScrollCue";
 
 /** Times the JSONL is repeated to overflow the viewport into an endless wall. */
 const WALL_REPEAT = 6;
 
+const HEADLINE = "Make your Claude Code transcripts readable.";
+const SUBLINE =
+  "weavr turns raw JSONL session logs into beautiful, shareable HTML — 100% local, no AI.";
+
 /**
- * S1 hero: a full-viewport wall of raw, unreadable JSONL — the problem, stated
- * visually. No buttons, no headline that explains it; the mess is the message.
- * Tension motion (slow drift, line flicker, a blinking cursor) makes it feel
- * alive and overwhelming. Reduced motion leaves a static, equally illegible wall.
+ * S1 hero (R2): the raw JSONL of the demo session is dimmed to a low-opacity
+ * background texture behind a vignette, with a slow upward drift so it reads as
+ * a live log firehose — the villain, not content to read. Framing copy sits on
+ * top as the focal layer so a first-time visitor grasps the promise in ~3s
+ * without scrolling. No CTA, no modal — the GitHub icon lives in the header.
  */
 export function HeroJsonl() {
   const lines = useMemo(() => {
@@ -20,40 +26,20 @@ export function HeroJsonl() {
   }, []);
 
   const wallRef = useRef<HTMLPreElement>(null);
-  const cursorRef = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
     const wall = wallRef.current;
-    const cursor = cursorRef.current;
-    if (!wall || !cursor) return;
+    if (!wall) return;
 
     return registerMotion({
       animate: () => {
         const ctx = gsap.context(() => {
-          // Slow vertical drift — the wall is endlessly scrolling past.
+          // Slow upward drift — the wall is an endless log firehose scrolling past.
           gsap.to(wall, {
             yPercent: -50,
-            duration: 60,
+            duration: 90,
             ease: "none",
             repeat: -1,
-          });
-          // Random line flicker, like a terminal struggling to keep up.
-          const rows = gsap.utils.toArray<HTMLElement>("[data-line]", wall);
-          gsap.to(gsap.utils.shuffle(rows).slice(0, 14), {
-            opacity: 0.25,
-            duration: 0.9,
-            ease: "power1.inOut",
-            repeat: -1,
-            yoyo: true,
-            stagger: { each: 0.4, repeat: -1 },
-          });
-          // Blinking cursor.
-          gsap.to(cursor, {
-            opacity: 0,
-            duration: 0.5,
-            ease: "steps(1)",
-            repeat: -1,
-            yoyo: true,
           });
         }, wall);
         return () => ctx.revert();
@@ -64,41 +50,53 @@ export function HeroJsonl() {
 
   return (
     <section
-      aria-label="Unreadable Claude Code transcript"
+      aria-label="weavr — make your Claude Code transcripts readable"
       className="relative grid h-dvh place-items-center overflow-hidden bg-bg"
     >
-      {/* The hero is a deliberate wordless visual; this gives assistive tech and
-          search engines the page's single h1 without altering the design. */}
-      <h1 className="sr-only">weavr — turn unreadable Claude Code JSONL into beautiful HTML</h1>
-
+      {/* Raw JSONL, dimmed to a texture. aria-hidden: it's decoration behind the
+          real copy, not content for assistive tech to read. */}
       <pre
         ref={wallRef}
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 select-none whitespace-pre px-6 py-8 font-mono text-[12px] leading-5 text-muted/55"
+        className="pointer-events-none absolute inset-0 select-none whitespace-pre px-6 py-8 font-mono text-[12px] leading-5 text-muted/20"
       >
         {lines.map((line, index) => (
-          <div key={index} data-line className="truncate">
+          <div key={index} className="truncate">
             {line}
           </div>
         ))}
       </pre>
 
-      {/* Vignette: fade the wall into the page edges so it reads as endless. */}
+      {/* Vignette: fade the texture into the page edges so it reads as endless. */}
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-0"
         style={{
           background:
-            "radial-gradient(120% 90% at 50% 50%, transparent 35%, rgb(var(--color-bg)) 100%)",
+            "radial-gradient(120% 90% at 50% 45%, transparent 30%, rgb(var(--color-bg)) 95%)",
         }}
       />
 
-      {/* Live cursor — the only crisp element, hinting this is a live feed. */}
-      <span
-        ref={cursorRef}
+      {/* Soft glow directly behind the copy to lift it off the texture for AA. */}
+      <div
         aria-hidden="true"
-        className="relative z-10 inline-block h-5 w-2.5 bg-fg/70"
+        className="pointer-events-none absolute left-1/2 top-1/2 size-[36rem] max-w-[90vw] -translate-x-1/2 -translate-y-1/2 rounded-full"
+        style={{
+          background: "radial-gradient(closest-side, rgb(var(--color-bg) / 0.92), transparent 80%)",
+        }}
       />
+
+      {/* Focal layer: the framing copy. */}
+      <div className="relative z-10 mx-auto max-w-2xl px-6 text-center">
+        <h1 className="text-balance text-4xl font-semibold tracking-tight text-fg sm:text-5xl md:text-6xl">
+          {HEADLINE}
+        </h1>
+        <p className="mx-auto mt-6 max-w-xl text-pretty text-base text-muted sm:text-lg">
+          {SUBLINE}
+        </p>
+      </div>
+
+      <ScrollCue />
     </section>
   );
 }
