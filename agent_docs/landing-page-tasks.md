@@ -143,6 +143,64 @@ Legend: `[ ]` todo · `AC` = acceptance criteria.
 
 ---
 
+## Phase F — Hero & transformation rework (R2, 2026-06-17)
+
+> Reframes the opening and the magic. See spec R2 summary + plan R2 section.
+
+- [x] **F1. Rework hero into framed visual hook.**
+      `components/hero/HeroJsonl.tsx` — dim the raw JSONL to a low-opacity
+      background texture with a vignette/fade (optional slow upward drift). Overlay
+      headline **"Make your Claude Code transcripts readable."** + subline + keep
+      it CTA-free.
+  - AC: a first-time visitor grasps the promise in ~3s without scrolling; JSONL
+    reads as texture, not content; AA contrast on the overlay copy; no CTA/modal.
+
+- [x] **F2. Scroll cue.**
+      `components/hero/ScrollCue.tsx` — subtle animated chevron / "see it weave"
+      inviting the visitor down; respects reduced-motion.
+  - AC: cue is visible and clearly signals "scroll"; static (non-animated) when
+    reduced-motion is on.
+
+- [x] **F3. Weave morph (replaces ProcessPipeline).**
+      `components/transform/WeaveMorph.tsx` — scroll-scrubbed morph of the **same
+      hero JSONL** into the woven conversation (lines untangle → reflow into
+      bubbles), with `parse · session DAG · render` captions surfacing during the
+      morph. Remove `components/process/ProcessPipeline.tsx` and its references.
+  - AC: the raw→woven transformation reads as one continuous motion at 60fps;
+    captions explain the steps as they happen; transform/opacity only.
+
+- [x] **F4. Morph reduced-motion fallback.**
+  - AC: with reduced-motion, F3 shows a clear static before→after diagram (raw
+    block → rendered block) with the mechanism words labeled, no scrub.
+
+- [x] **F5. Continuity wiring.**
+      Ensure hero JSONL, F3 morph, and S3 output panel all derive from the same
+      `demo-session` data (date-bug session) so the payoff resolves the exact mess
+      from the hero.
+  - AC: the session shown raw in the hero is the same one rendered in S3; verified
+    by content, not coincidence.
+
+- [x] **F6. Before/after toggle in output panel.**
+      `components/output/OutputPanel.tsx` — add a toggle to flip the rendered panel
+      back to its raw JSONL form (reuses existing renderers + serializer).
+  - AC: toggle swaps rendered ↔ raw with no layout jump; keyboard-accessible;
+    labeled clearly ("rendered / raw").
+
+- [x] **F7. Install becomes the primary CTA.**
+      `components/install/InstallSection.tsx` — place after the payoff: copyable
+      install command + "View on GitHub" + move the `100% local · No AI · Single
+binary` trust pills here (out of the removed S2).
+  - AC: trust pills no longer appear in the explainer; CTA section reads as the
+    convergence/conversion point; copy + GitHub link work.
+
+- [x] **F8. Stitch & verify the new flow.**
+      Re-stitch S1 → S2 (morph) → S3 → CTA into one continuous story; update the
+      light→dark transition timing to the new section boundaries.
+  - AC: scroll-through reads as raw chaos → weave → readable → install; agent-browser
+    screenshots confirm across breakpoints; no leftover "How it works" cards.
+
+---
+
 ## Suggested commit cadence
 
 One commit per task (or per small task cluster), message describing the user-facing
