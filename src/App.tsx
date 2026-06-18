@@ -3,7 +3,7 @@ import { useScrollBridge } from "./hooks/useScrollBridge";
 import { useThemeScroll } from "./hooks/useThemeScroll";
 import { Header } from "./components/layout/Header";
 import { HeroJsonl } from "./components/hero/HeroJsonl";
-import { ProcessPipeline } from "./components/process/ProcessPipeline";
+import { WeaveMorph } from "./components/transform/WeaveMorph";
 import { OutputPanel } from "./components/output/OutputPanel";
 import { SpeedStats } from "./components/speed/SpeedStats";
 import { FeatureGrid } from "./components/features/FeatureGrid";
@@ -13,8 +13,8 @@ import { demoSession } from "./data/demo-session";
 
 /**
  * Composition root. The page is one continuous light -> dark scroll: hero (S1)
- * and process (S2) ride the interpolated palette, then everything from the
- * output centerpiece (S3) down is pinned dark via `.theme-dark` so the
+ * and the weave morph (S2) ride the interpolated palette, then everything from
+ * the output centerpiece (S3) down is pinned dark via `.theme-dark` so the
  * supporting sections read as weavr's finished, dark-mode artefact.
  */
 export default function App() {
@@ -27,7 +27,7 @@ export default function App() {
       <Header />
       <main id="top" className="bg-bg text-fg">
         <HeroJsonl />
-        <ProcessPipeline />
+        <WeaveMorph events={demoSession} />
         <div ref={outputRef}>
           <OutputPanel events={demoSession} />
         </div>

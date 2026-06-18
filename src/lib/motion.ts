@@ -9,6 +9,8 @@
 import gsap from "gsap";
 
 const REDUCED_MOTION_QUERY = "(prefers-reduced-motion: reduce)";
+/** Below this width, pinned scroll-scrubs fight touch scroll + mobile chrome. */
+const SMALL_SCREEN_QUERY = "(max-width: 767px)";
 
 /** Shared GSAP tween defaults — calm, premium, transform/opacity only. */
 export const MOTION_DEFAULTS = {
@@ -22,6 +24,16 @@ gsap.defaults(MOTION_DEFAULTS);
 export function prefersReducedMotion(): boolean {
   if (typeof window === "undefined" || !window.matchMedia) return false;
   return window.matchMedia(REDUCED_MOTION_QUERY).matches;
+}
+
+/**
+ * True on small screens, where pinned scroll-scrubs fight touch scroll and
+ * mobile browser chrome. Such sections fall back to their static/scrollable
+ * form, the same path used under reduced motion. SSR-safe.
+ */
+export function isSmallScreen(): boolean {
+  if (typeof window === "undefined" || !window.matchMedia) return false;
+  return window.matchMedia(SMALL_SCREEN_QUERY).matches;
 }
 
 /** Subscribe to reduced-motion preference changes; returns an unsubscribe fn. */
