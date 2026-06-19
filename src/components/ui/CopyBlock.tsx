@@ -39,10 +39,40 @@ export function CopyBlock({ command }: { command: string }) {
         {command}
       </span>
       <span
-        className={`shrink-0 text-xs ${copied ? "text-accent" : "text-muted group-hover:text-accent"}`}
+        className={`shrink-0 ${copied ? "text-accent" : "text-muted group-hover:text-accent"}`}
         aria-hidden="true"
       >
-        {copied ? "Copied" : "Copy"}
+        {copied ? (
+          // Checkmark — confirmed copy
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+            <path
+              d="M2.5 7.5L5.5 10.5L11.5 4"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        ) : (
+          // Clipboard — copy action
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+            <rect
+              x="4.5"
+              y="3.5"
+              width="7"
+              height="8"
+              rx="1"
+              stroke="currentColor"
+              strokeWidth="1.2"
+            />
+            <path
+              d="M4.5 5H3C2.44772 5 2 5.44772 2 6V11C2 11.5523 2.44772 12 3 12H8.5C9.05228 12 9.5 11.5523 9.5 11V10.5"
+              stroke="currentColor"
+              strokeWidth="1.2"
+              strokeLinecap="round"
+            />
+          </svg>
+        )}
       </span>
     </button>
   );

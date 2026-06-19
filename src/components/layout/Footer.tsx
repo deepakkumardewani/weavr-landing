@@ -1,34 +1,26 @@
 import { LINKS } from "../../lib/links";
 
-const FOOTER_LINKS = [
-  { label: "GitHub", href: LINKS.github },
-  { label: "crates.io", href: LINKS.crates },
-  { label: "License (MIT)", href: LINKS.license },
-  { label: "claude-code-log", href: LINKS.claudeCodeLog },
-] as const;
+const CHIPS = ["100% local", "no AI", "a single Rust binary"] as const;
 
 /**
- * S7 footer: a quiet close-out that re-states the one promise that matters —
- * everything runs locally, with no AI — and links out to the project's homes.
+ * S7 footer: three trust chips re-state the core promise, followed by the
+ * claude-code-log inspiration credit. Nav links removed — GitHub and crates
+ * live in the Install section.
  */
 export function Footer() {
   return (
     <footer className="theme-dark border-t border-border bg-bg px-6 py-16 text-fg">
       <div className="mx-auto flex max-w-5xl flex-col items-center gap-6 text-center">
-        <p className="font-mono text-sm text-muted">100% local · no AI · a single Rust binary</p>
-        <nav aria-label="Footer" className="flex flex-wrap justify-center gap-x-8 gap-y-3">
-          {FOOTER_LINKS.map((link) => (
-            <a
-              key={link.label}
-              href={link.href}
-              target="_blank"
-              rel="noreferrer noopener"
-              className="text-sm text-muted transition-colors hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+        <ul className="flex flex-wrap justify-center gap-3" aria-label="Why weavr">
+          {CHIPS.map((chip) => (
+            <li
+              key={chip}
+              className="rounded-full border border-border bg-surface px-4 py-1.5 font-mono text-xs text-muted"
             >
-              {link.label}
-            </a>
+              {chip}
+            </li>
           ))}
-        </nav>
+        </ul>
         <p className="text-xs text-muted">
           Built with{" "}
           <a

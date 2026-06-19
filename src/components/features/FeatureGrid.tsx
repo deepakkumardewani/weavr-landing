@@ -11,7 +11,7 @@ interface Feature {
 const FEATURES: Feature[] = [
   {
     title: "Self-contained HTML",
-    body: "One file with everything inlined — open it anywhere, share it anywhere.",
+    body: "One file with everything inlined — open or share it anywhere.",
   },
   {
     title: "Light & dark themes",
@@ -27,11 +27,11 @@ const FEATURES: Feature[] = [
   },
   {
     title: "Token tracking",
-    body: "Per-message input/output token counts surfaced inline.",
+    body: "Session- and project-level input/output token totals surfaced in every export.",
   },
   {
     title: "Multi-project export",
-    body: "Sweep every project under ~/.claude in a single command.",
+    body: "Sweep every project under ~/.claude/projects in a single command.",
   },
   {
     title: "SQLite incremental cache",

@@ -10,19 +10,21 @@ function stubClipboard(writeText: (text: string) => Promise<void>) {
   });
 }
 
-test("copies the command and shows transient feedback", async () => {
+test("copies the command and shows Copied aria-label feedback", async () => {
   const writeText = vi.fn().mockResolvedValue(undefined);
   const user = userEvent.setup();
   stubClipboard(writeText);
 
   render(<CopyBlock command="cargo install weavr" />);
   const button = screen.getByRole("button");
-  expect(button).toHaveTextContent("Copy");
+  // Before copy: aria-label signals "Copy command"
+  expect(button).toHaveAttribute("aria-label", "Copy command: cargo install weavr");
 
   await user.click(button);
 
   expect(writeText).toHaveBeenCalledWith("cargo install weavr");
-  await waitFor(() => expect(button).toHaveTextContent("Copied"));
+  // After copy: aria-label switches to "Copied"
+  await waitFor(() => expect(button).toHaveAttribute("aria-label", "Copied: cargo install weavr"));
 });
 
 test("surfaces a clipboard failure without crashing", async () => {
@@ -34,6 +36,10 @@ test("surfaces a clipboard failure without crashing", async () => {
   await user.click(screen.getByRole("button"));
 
   await waitFor(() => expect(error).toHaveBeenCalled());
-  expect(screen.getByRole("button")).toHaveTextContent("Copy");
+  // Still shows copy state (not stuck in copied)
+  expect(screen.getByRole("button")).toHaveAttribute(
+    "aria-label",
+    "Copy command: brew install weavr",
+  );
   error.mockRestore();
 });

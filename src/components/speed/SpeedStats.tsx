@@ -1,13 +1,14 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
-import { SPEED_RACE, SPEED_STATS } from "../../data/stats";
+import { BENCHMARK_META, SPEED_RACE_GROUPS, SPEED_STATS } from "../../data/stats";
 import { registerMotion } from "../../lib/motion";
 import { CountUp } from "../ui/CountUp";
 import { SectionHeading } from "../ui/SectionHeading";
 
 /**
- * S4 speed: the 46.5× story. Three count-up stats land the headline numbers and
- * a race bar fills on scroll so the gap vs `claude-code-log` is felt, not read.
+ * S4 speed: the 58.2× story. Three count-up stats land the headline numbers and
+ * two race bars (all-projects + single-session) fill on scroll so the gap vs
+ * `claude-code-log` is felt, not just read.
  */
 export function SpeedStats() {
   return (
@@ -37,12 +38,85 @@ export function SpeedStats() {
         </div>
 
         <RaceBar />
+        <BenchmarkDetails />
       </div>
     </section>
   );
 }
 
-/** Two horizontal bars whose widths fill on scroll to show the speed gap. */
+/** Collapsible panel showing the benchmark methodology and raw figures. */
+function BenchmarkDetails() {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <div className="mx-auto mt-8 max-w-2xl">
+      <button
+        type="button"
+        aria-expanded={open}
+        aria-controls="benchmark-details"
+        onClick={() => setOpen((v) => !v)}
+        className="flex items-center gap-2 font-mono text-xs text-muted transition-colors hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+      >
+        <span
+          aria-hidden="true"
+          className={`transition-transform duration-200 motion-reduce:transition-none ${open ? "rotate-90" : ""}`}
+        >
+          ▶
+        </span>
+        Benchmark details
+      </button>
+
+      <div
+        id="benchmark-details"
+        hidden={!open}
+        className="mt-3 rounded-lg border border-border bg-surface/50 px-5 py-4"
+      >
+        <dl className="font-mono text-xs">
+          {/* Row 1: corpus stats — same 4-col grid as row 2 so columns align */}
+          <div className="grid grid-cols-2 gap-x-8 gap-y-2 sm:grid-cols-4">
+            <div>
+              <dt className="text-muted">projects</dt>
+              <dd className="text-fg">{BENCHMARK_META.projects}</dd>
+            </div>
+            <div>
+              <dt className="text-muted">sessions</dt>
+              <dd className="text-fg">{BENCHMARK_META.sessions}</dd>
+            </div>
+            <div>
+              <dt className="text-muted">messages</dt>
+              <dd className="text-fg">{BENCHMARK_META.messages}</dd>
+            </div>
+          </div>
+          {/* Row 2: token breakdown */}
+          <div className="mt-3 grid grid-cols-2 gap-x-8 gap-y-2 border-t border-border/30 pt-3 sm:grid-cols-4">
+            <div>
+              <dt className="text-muted">tokens in</dt>
+              <dd className="text-fg">{BENCHMARK_META.totalTokensIn}</dd>
+            </div>
+            <div>
+              <dt className="text-muted">tokens out</dt>
+              <dd className="text-fg">{BENCHMARK_META.totalTokensOut}</dd>
+            </div>
+            <div>
+              <dt className="text-muted">cache read</dt>
+              <dd className="text-fg">{BENCHMARK_META.totalCacheRead}</dd>
+            </div>
+            <div>
+              <dt className="text-muted">cache write</dt>
+              <dd className="text-fg">{BENCHMARK_META.totalCacheWrite}</dd>
+            </div>
+          </div>
+        </dl>
+        <p className="mt-3 text-xs text-muted">
+          Measured with hyperfine (3 runs, --no-cache) on macOS against{" "}
+          <span className="text-fg">~/.claude/projects/</span>.
+        </p>
+      </div>
+    </div>
+  );
+}
+
+/** Two race groups (all-projects + single-session) whose bars fill on scroll. */
 function RaceBar() {
   const rootRef = useRef<HTMLDivElement>(null);
 
@@ -58,7 +132,7 @@ function RaceBar() {
             transformOrigin: "left center",
             duration: 1.1,
             ease: "power2.out",
-            stagger: 0.15,
+            stagger: 0.1,
             scrollTrigger: { trigger: root, start: "top 80%", once: true },
           });
         }, root);
@@ -69,21 +143,33 @@ function RaceBar() {
   }, []);
 
   return (
-    <div ref={rootRef} className="mx-auto mt-16 max-w-2xl space-y-4">
-      {SPEED_RACE.map((contender) => (
-        <div key={contender.name}>
-          <div className="mb-1.5 flex items-baseline justify-between font-mono text-xs">
-            <span className={contender.accent ? "text-accent" : "text-muted"}>
-              {contender.name}
-            </span>
-            <span className="text-muted">{contender.time}</span>
-          </div>
-          <div className="h-2.5 overflow-hidden rounded-full bg-surface-2">
-            <div
-              data-bar-fill
-              className={`h-full rounded-full ${contender.accent ? "bg-accent" : "bg-muted/50"}`}
-              style={{ width: `${contender.fraction * 100}%` }}
-            />
+    <div ref={rootRef} className="mx-auto mt-16 max-w-2xl space-y-10">
+      {SPEED_RACE_GROUPS.map((group) => (
+        <div key={group.label}>
+          <p className="mb-3 font-mono text-xs text-muted/60">{group.label}</p>
+          <div className="space-y-3">
+            {group.contenders.map((contender) => (
+              <div key={contender.name}>
+                <div className="mb-1.5 flex items-baseline justify-between font-mono text-xs">
+                  <span className={contender.accent ? "text-accent" : "text-muted"}>
+                    {contender.name}
+                  </span>
+                  <span className="text-muted">{contender.time}</span>
+                </div>
+                <div className="relative h-2.5 overflow-hidden rounded-full bg-surface-2">
+                  <div
+                    data-bar-fill
+                    className={`h-full rounded-full ${contender.accent ? "bg-accent" : "bg-muted/50"}`}
+                    style={{ width: `${contender.fraction * 100}%` }}
+                  />
+                </div>
+              </div>
+            ))}
+            {/* Scale axis: 0 on left, round ceiling on right */}
+            <div className="flex justify-between font-mono text-[10px] text-muted/40">
+              <span>0</span>
+              <span>{group.scaleMax}</span>
+            </div>
           </div>
         </div>
       ))}
