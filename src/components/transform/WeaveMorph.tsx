@@ -10,7 +10,7 @@ import { toParseFields, toWeaveBubbles, type ParseField, type WeaveBubble } from
 /** Raw JSONL lines surfaced in the "parse" stage as the before-texture. */
 const RAW_LINE_COUNT = 3;
 /** Scroll distance (px) the section stays pinned across all three stages. */
-const PIN_DISTANCE = 2200;
+export const PIN_DISTANCE = 2200;
 /** Mechanism words shown, in order, as the morph advances. */
 const MECHANISM = ["parse", "session DAG", "render"] as const;
 /** Plain-English gloss under each mechanism word (same index as MECHANISM). */
@@ -126,8 +126,9 @@ export function WeaveMorph({ events }: { events: DemoEvent[] }) {
   return (
     <section
       ref={sectionRef}
+      data-weave-section
       aria-label="How weavr weaves raw JSONL into a readable conversation"
-      className="grid min-h-dvh place-items-center overflow-hidden bg-bg px-6 text-fg"
+      className="relative grid min-h-dvh place-items-center overflow-hidden px-6 text-fg"
     >
       <div className="w-full max-w-2xl">
         {/* Persistent frame: orients the viewer while only the stage morphs. */}

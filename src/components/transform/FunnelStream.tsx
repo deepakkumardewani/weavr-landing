@@ -4,6 +4,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { demoSession } from "../../data/demo-session";
 import { toJsonl } from "../../data/demo-jsonl";
 import { isSmallScreen, prefersReducedMotion, registerMotion } from "../../lib/motion";
+import { PIN_DISTANCE } from "./WeaveMorph";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -15,6 +16,8 @@ const OPACITY_DIM = 0.15;
 const OPACITY_BRIGHT = 0.5;
 /** Fraction of viewport width the wall narrows to as the center column (B1). */
 const COLUMN_SCALE = 0.38;
+/** Wall opacity at the minimum before the render cutoff (C1 end-state). */
+const OPACITY_THIN = 0.05;
 
 /**
  * Shared JSONL stream layer spanning the hero (S1) and weave morph (S2) sections.
@@ -24,7 +27,8 @@ const COLUMN_SCALE = 0.38;
  *   – Continuous upward drift (time-based, scroll-independent).
  *   – B1: scroll-linked condense + brighten over hero range
  *         (full-width dim wall → center column bright wall).
- *   – C1/C2: flow + cutoff through weave range (future phases).
+ *   – C1: column flows + thins during parse + DAG beats.
+ *   – C2: cut opacity to 0 exactly at the render beat (future phase).
  *
  * Fallback (reduced-motion OR small screen): static dim wall confined to
  * the hero viewport only — no funnel, no flow, no scroll trap.
@@ -76,6 +80,24 @@ export function FunnelStream() {
               scrub: 1.5,
               animation: condenseTl,
               invalidateOnRefresh: true,
+            });
+          }
+
+          // C1: Column flows + thins during parse and session DAG beats.
+          // Opacity drifts from OPACITY_BRIGHT down to OPACITY_THIN across the
+          // full weave pin so the stream feels like it's being consumed.
+          const weaveSection = document.querySelector("[data-weave-section]") as HTMLElement | null;
+          if (weaveSection) {
+            ScrollTrigger.create({
+              trigger: weaveSection,
+              start: "top top",
+              end: `+=${PIN_DISTANCE}`,
+              scrub: 1,
+              invalidateOnRefresh: true,
+              onUpdate: (self) => {
+                const opacity = OPACITY_BRIGHT - (OPACITY_BRIGHT - OPACITY_THIN) * self.progress;
+                gsap.set(wall, { opacity });
+              },
             });
           }
         }, wall);
