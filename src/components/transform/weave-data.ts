@@ -10,12 +10,16 @@ export interface WeaveBubble {
   text: string;
   /** Tailwind dot color class echoing weavr's timeline hues. */
   dotClass: string;
+  /** Structural metadata surfaced in the DAG view (time, tokens, tool kind). */
+  meta?: string;
 }
 
 /** How many of the early events the woven preview surfaces. */
 const PREVIEW_COUNT = 5;
 /** Max characters per bubble snippet before truncation. */
 const MAX_TEXT = 92;
+/** Max characters for a parsed field value before truncation. */
+const MAX_FIELD = 38;
 
 const DOT_CLASS: Record<DemoEvent["kind"], string> = {
   user: "bg-dot-user",
@@ -31,9 +35,34 @@ const SPEAKER_LABEL: Record<DemoEvent["kind"], string> = {
   tool: "Tool",
 };
 
-function truncate(text: string): string {
+function truncate(text: string, max = MAX_TEXT): string {
   const collapsed = text.replace(/\s+/g, " ").trim();
-  return collapsed.length > MAX_TEXT ? `${collapsed.slice(0, MAX_TEXT - 1)}…` : collapsed;
+  return collapsed.length > max ? `${collapsed.slice(0, max - 1)}…` : collapsed;
+}
+
+/** The raw text payload of an event, regardless of kind. */
+function textOf(event: DemoEvent): string {
+  return event.kind === "tool" ? event.input : event.text;
+}
+
+/** One key/value pair the "parse" stage lifts out of a raw JSONL record. */
+export interface ParseField {
+  key: string;
+  value: string;
+}
+
+/**
+ * The fields the "parse" beat extracts from the first raw record — a
+ * representative (not literal) view of reading one JSONL line into typed
+ * fields, so the viewer sees *what* parsing pulls out.
+ */
+export function toParseFields(events: DemoEvent[]): ParseField[] {
+  const first = events[0];
+  return [
+    { key: "type", value: first.kind },
+    { key: "role", value: first.kind === "tool" ? "tool" : first.kind },
+    { key: "content", value: truncate(textOf(first), MAX_FIELD) },
+  ];
 }
 
 function snippet(event: DemoEvent): string {
@@ -44,6 +73,21 @@ function snippet(event: DemoEvent): string {
       return truncate(event.text);
     case "tool":
       return truncate(`${event.input}`);
+  }
+}
+
+/** Structural metadata the DAG node surfaces beside its label. */
+function metaOf(event: DemoEvent): string | undefined {
+  switch (event.kind) {
+    case "user":
+      // Local clock time from the ISO timestamp (e.g. "09:41").
+      return event.ts?.slice(11, 16);
+    case "assistant":
+      return event.tokens ? `${event.tokens.in} → ${event.tokens.out} tok` : undefined;
+    case "thinking":
+      return "reasoning";
+    case "tool":
+      return "tool call";
   }
 }
 
@@ -59,5 +103,6 @@ export function toWeaveBubbles(events: DemoEvent[], count = PREVIEW_COUNT): Weav
     label: event.kind === "tool" ? event.name : SPEAKER_LABEL[event.kind],
     text: snippet(event),
     dotClass: DOT_CLASS[event.kind],
+    meta: metaOf(event),
   }));
 }
