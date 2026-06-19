@@ -1,17 +1,55 @@
+import { useEffect, useRef, useState } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { isSmallScreen, prefersReducedMotion } from "../../lib/motion";
 import { ScrollCue } from "./ScrollCue";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const HEADLINE = "Make your Claude Code transcripts readable.";
 const SUBLINE =
   "weavr turns raw JSONL session logs into beautiful, shareable HTML — 100% local, no AI.";
 
 /**
- * S1 hero (R2): framing copy over the shared FunnelStream wall (now in App.tsx
- * wrapper). Vignette + glow keep the copy legible against the JSONL texture.
- * No CTA — the GitHub icon lives in the header.
+ * S1 hero: framing copy over the shared FunnelStream wall (in App.tsx wrapper).
+ * Vignette + glow keep the copy legible at rest. As the user scrolls, the copy
+ * fades out early (B2) so the condensing wall takes center stage before the
+ * weave section pins. No CTA — the GitHub icon lives in the header.
  */
 export function HeroJsonl() {
+  const [reduced] = useState(() => prefersReducedMotion() || isSmallScreen());
+  const copyRef = useRef<HTMLDivElement>(null);
+  const sectionRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    if (reduced) return;
+    const copy = copyRef.current;
+    const section = sectionRef.current;
+    if (!copy || !section) return;
+
+    const ctx = gsap.context(() => {
+      // B2: Fade copy early — gone by the time the wall is mid-condense.
+      // Fades from 0% to 45% scroll progress through the hero.
+      ScrollTrigger.create({
+        trigger: section,
+        start: "top top",
+        end: "bottom top",
+        scrub: 1,
+        invalidateOnRefresh: true,
+        onUpdate: (self) => {
+          // Fade out across the first 45% of hero scroll; clamp at 0.
+          const fadeProgress = Math.min(self.progress / 0.45, 1);
+          gsap.set(copy, { opacity: 1 - fadeProgress });
+        },
+      });
+    }, section);
+
+    return () => ctx.revert();
+  }, [reduced]);
+
   return (
     <section
+      ref={sectionRef}
       aria-label="weavr — make your Claude Code transcripts readable"
       className="relative grid h-dvh place-items-center overflow-hidden"
     >
@@ -34,8 +72,8 @@ export function HeroJsonl() {
         }}
       />
 
-      {/* Focal layer: the framing copy. */}
-      <div className="relative z-10 mx-auto max-w-2xl px-6 text-center">
+      {/* Focal layer: the framing copy. Fades early so the wall takes over. */}
+      <div ref={copyRef} className="relative z-10 mx-auto max-w-2xl px-6 text-center">
         <h1 className="text-balance text-4xl font-semibold tracking-tight text-fg sm:text-5xl md:text-6xl">
           {HEADLINE}
         </h1>
