@@ -4,6 +4,7 @@ import { useThemeScroll } from "./hooks/useThemeScroll";
 import { Header } from "./components/layout/Header";
 import { HeroJsonl } from "./components/hero/HeroJsonl";
 import { WeaveMorph } from "./components/transform/WeaveMorph";
+import { FunnelStream } from "./components/transform/FunnelStream";
 import { OutputPanel } from "./components/output/OutputPanel";
 import { SpeedStats } from "./components/speed/SpeedStats";
 import { FeatureGrid } from "./components/features/FeatureGrid";
@@ -26,8 +27,13 @@ export default function App() {
     <>
       <Header />
       <main id="top" className="bg-bg text-fg">
-        <HeroJsonl />
-        <WeaveMorph events={demoSession} />
+        {/* Single relative wrapper so FunnelStream can span both S1 + S2 as one
+            absolute layer — no reparenting jump at the section boundary. */}
+        <div className="relative">
+          <FunnelStream />
+          <HeroJsonl />
+          <WeaveMorph events={demoSession} />
+        </div>
         <div ref={outputRef}>
           <OutputPanel events={demoSession} />
         </div>

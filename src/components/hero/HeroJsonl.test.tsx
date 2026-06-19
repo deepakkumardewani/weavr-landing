@@ -16,8 +16,8 @@ test("frames the promise with headline + subline over a JSONL texture, no CTA", 
     screen.getByRole("heading", { level: 1, name: /make your claude code transcripts readable/i }),
   ).toBeInTheDocument();
   expect(screen.getByText(/100% local, no ai/i)).toBeInTheDocument();
-  // The dimmed background is still genuine transcript JSONL.
-  expect(container.textContent).toContain('"role"');
+  // Wall lives in FunnelStream (App.tsx wrapper) — hero owns only copy + vignette.
+  expect(container.querySelector("pre")).toBeNull();
   // Hard constraint: no buttons / CTAs in the hero.
   expect(container.querySelectorAll("button").length).toBe(0);
   expect(container.querySelectorAll("a").length).toBe(0);

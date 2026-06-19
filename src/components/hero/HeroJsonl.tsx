@@ -1,72 +1,20 @@
-import { useEffect, useMemo, useRef } from "react";
-import gsap from "gsap";
-import { demoSession } from "../../data/demo-session";
-import { toJsonl } from "../../data/demo-jsonl";
-import { registerMotion } from "../../lib/motion";
 import { ScrollCue } from "./ScrollCue";
-
-/** Times the JSONL is repeated to overflow the viewport into an endless wall. */
-const WALL_REPEAT = 6;
 
 const HEADLINE = "Make your Claude Code transcripts readable.";
 const SUBLINE =
   "weavr turns raw JSONL session logs into beautiful, shareable HTML — 100% local, no AI.";
 
 /**
- * S1 hero (R2): the raw JSONL of the demo session is dimmed to a low-opacity
- * background texture behind a vignette, with a slow upward drift so it reads as
- * a live log firehose — the villain, not content to read. Framing copy sits on
- * top as the focal layer so a first-time visitor grasps the promise in ~3s
- * without scrolling. No CTA, no modal — the GitHub icon lives in the header.
+ * S1 hero (R2): framing copy over the shared FunnelStream wall (now in App.tsx
+ * wrapper). Vignette + glow keep the copy legible against the JSONL texture.
+ * No CTA — the GitHub icon lives in the header.
  */
 export function HeroJsonl() {
-  const lines = useMemo(() => {
-    const raw = toJsonl(demoSession).split("\n");
-    return Array.from({ length: WALL_REPEAT }, () => raw).flat();
-  }, []);
-
-  const wallRef = useRef<HTMLPreElement>(null);
-
-  useEffect(() => {
-    const wall = wallRef.current;
-    if (!wall) return;
-
-    return registerMotion({
-      animate: () => {
-        const ctx = gsap.context(() => {
-          // Slow upward drift — the wall is an endless log firehose scrolling past.
-          gsap.to(wall, {
-            yPercent: -50,
-            duration: 90,
-            ease: "none",
-            repeat: -1,
-          });
-        }, wall);
-        return () => ctx.revert();
-      },
-      static: () => {},
-    });
-  }, []);
-
   return (
     <section
       aria-label="weavr — make your Claude Code transcripts readable"
-      className="relative grid h-dvh place-items-center overflow-hidden bg-bg"
+      className="relative grid h-dvh place-items-center overflow-hidden"
     >
-      {/* Raw JSONL, dimmed to a texture. aria-hidden: it's decoration behind the
-          real copy, not content for assistive tech to read. */}
-      <pre
-        ref={wallRef}
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 select-none whitespace-pre px-6 py-8 font-mono text-[12px] leading-5 text-muted/20"
-      >
-        {lines.map((line, index) => (
-          <div key={index} className="truncate">
-            {line}
-          </div>
-        ))}
-      </pre>
-
       {/* Vignette: fade the texture into the page edges so it reads as endless. */}
       <div
         aria-hidden="true"
