@@ -11,6 +11,11 @@ import { toParseFields, toWeaveBubbles, type ParseField, type WeaveBubble } from
 const RAW_LINE_COUNT = 3;
 /** Scroll distance (px) the section stays pinned across all three stages. */
 export const PIN_DISTANCE = 2200;
+/**
+ * Scroll offset (px from weave start) where the render beat begins.
+ * Derived from the timeline: render starts at position 6 of 7.6 total units.
+ */
+export const RENDER_SCROLL_OFFSET = Math.round(PIN_DISTANCE * (6 / 7.6));
 /** Mechanism words shown, in order, as the morph advances. */
 const MECHANISM = ["parse", "session DAG", "render"] as const;
 /** Plain-English gloss under each mechanism word (same index as MECHANISM). */

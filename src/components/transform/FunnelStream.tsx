@@ -4,7 +4,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { demoSession } from "../../data/demo-session";
 import { toJsonl } from "../../data/demo-jsonl";
 import { isSmallScreen, prefersReducedMotion, registerMotion } from "../../lib/motion";
-import { PIN_DISTANCE } from "./WeaveMorph";
+import { RENDER_SCROLL_OFFSET } from "./WeaveMorph";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -16,8 +16,6 @@ const OPACITY_DIM = 0.15;
 const OPACITY_BRIGHT = 0.5;
 /** Fraction of viewport width the wall narrows to as the center column (B1). */
 const COLUMN_SCALE = 0.38;
-/** Wall opacity at the minimum before the render cutoff (C1 end-state). */
-const OPACITY_THIN = 0.05;
 
 /**
  * Shared JSONL stream layer spanning the hero (S1) and weave morph (S2) sections.
@@ -27,8 +25,8 @@ const OPACITY_THIN = 0.05;
  *   – Continuous upward drift (time-based, scroll-independent).
  *   – B1: scroll-linked condense + brighten over hero range
  *         (full-width dim wall → center column bright wall).
- *   – C1: column flows + thins during parse + DAG beats.
- *   – C2: cut opacity to 0 exactly at the render beat (future phase).
+ *   – C1+C2: column flows + thins during parse/DAG, opacity → 0 exactly
+ *            at the render beat (derived from same constants as WeaveMorph).
  *
  * Fallback (reduced-motion OR small screen): static dim wall confined to
  * the hero viewport only — no funnel, no flow, no scroll trap.
@@ -83,20 +81,21 @@ export function FunnelStream() {
             });
           }
 
-          // C1: Column flows + thins during parse and session DAG beats.
-          // Opacity drifts from OPACITY_BRIGHT down to OPACITY_THIN across the
-          // full weave pin so the stream feels like it's being consumed.
+          // C1+C2: Column flows + thins during parse/DAG, then cuts to 0 exactly
+          // at the render beat (RENDER_SCROLL_OFFSET from weave start). This is
+          // derived from the same timeline constants as WeaveMorph so both stay
+          // locked to the same scroll position on resize.
           const weaveSection = document.querySelector("[data-weave-section]") as HTMLElement | null;
           if (weaveSection) {
             ScrollTrigger.create({
               trigger: weaveSection,
               start: "top top",
-              end: `+=${PIN_DISTANCE}`,
+              end: `+=${RENDER_SCROLL_OFFSET}`,
               scrub: 1,
               invalidateOnRefresh: true,
               onUpdate: (self) => {
-                const opacity = OPACITY_BRIGHT - (OPACITY_BRIGHT - OPACITY_THIN) * self.progress;
-                gsap.set(wall, { opacity });
+                // Linear fade to 0 — render lands in calm space.
+                gsap.set(wall, { opacity: OPACITY_BRIGHT * (1 - self.progress) });
               },
             });
           }
