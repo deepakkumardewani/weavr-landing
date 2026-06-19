@@ -1,9 +1,9 @@
 ## Important CLI Tools (use these, not the defaults)
 
 - `bun` instead of `npm`
-- `vp install` instead of `npm install`
-- `vp check` instead of `npm run lint`
-- `vp build` instead of `npm run build`
+- `vp install` instead of `bun install`
+- `vp check` instead of `bun run lint`
+- `vp build` instead of `bun run build`
 - `bun run format:write` to format the code
 
 # context-mode — MANDATORY routing rules

@@ -9,6 +9,44 @@ pinned, scroll-scrubbed conversation panel) is proven early, before polish.
 
 ---
 
+## R2 — Hero & transformation rework (2026-06-17)
+
+Phases A–E shipped. This revision reworks the opening and the transformation per
+the spec's R2 summary. New/changed components:
+
+```
+components/
+  hero/HeroJsonl.tsx        ← reworked: dim JSONL to background texture,
+                              add headline + subline overlay + scroll cue
+  hero/ScrollCue.tsx        ← new: animated chevron / "see it weave"
+  transform/WeaveMorph.tsx  ← new: replaces ProcessPipeline. Scroll-scrubbed
+                              morph of the SAME hero JSONL → woven conversation,
+                              with parse · session DAG · render captions during
+                              the morph. Static before→after fallback.
+  output/OutputPanel.tsx    ← add a before/after toggle (rendered ↔ raw JSONL)
+  install/InstallSection.tsx← becomes the primary CTA: install command +
+                              "View on GitHub" + 100% local / No AI / Single
+                              binary trust pills (moved out of the old S2)
+components/process/ProcessPipeline.tsx  ← removed (folded into WeaveMorph)
+```
+
+Key R2 decisions:
+
+- **Continuity by shared source.** The hero JSONL, the morph, and the output panel
+  all read from the same `demo-session` data. The morph animates _between_ the
+  serialized (raw) and parsed (rendered) forms of the same events, so "that mess
+  became this" is true by construction, not faked with two unrelated mockups.
+- **Morph stays compositor-cheap.** Reflow is faked with transform/opacity on
+  pre-laid-out line/bubble elements (FLIP-style), scrubbed to scroll — not real
+  layout thrash. Captions cross-fade at fixed scroll milestones.
+- **Hero copy is the focal layer.** JSONL drops to low opacity behind a vignette;
+  headline/subline sit on top with AA contrast against the lightest texture.
+- **Before/after toggle reuses existing renderers.** The S3 panel already holds
+  both forms (parsed renderers + the JSONL serializer); the toggle swaps which
+  layer is visible, no new data path.
+
+---
+
 ## 1. Architecture Overview
 
 ```
