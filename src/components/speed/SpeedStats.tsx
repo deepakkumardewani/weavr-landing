@@ -78,40 +78,37 @@ function BenchmarkDetails() {
         }`}
       >
         <div className="rounded-lg border border-border bg-surface/50 px-5 py-4">
-          <dl className="font-mono text-xs">
-            {/* Row 1: corpus stats — same 4-col grid as row 2 so columns align */}
-            <div className="grid grid-cols-2 gap-x-8 gap-y-2 sm:grid-cols-4">
-              <div>
-                <dt className="text-muted">projects</dt>
-                <dd className="text-fg">{BENCHMARK_META.projects}</dd>
-              </div>
-              <div>
-                <dt className="text-muted">sessions</dt>
-                <dd className="text-fg">{BENCHMARK_META.sessions}</dd>
-              </div>
-              <div>
-                <dt className="text-muted">messages</dt>
-                <dd className="text-fg">{BENCHMARK_META.messages}</dd>
-              </div>
+          {/* Two separate dl elements so each has only direct div→dt/dd children (valid HTML5). */}
+          <dl className="font-mono text-xs grid grid-cols-2 gap-x-8 gap-y-2 sm:grid-cols-4">
+            <div>
+              <dt className="text-muted">projects</dt>
+              <dd className="text-fg">{BENCHMARK_META.projects}</dd>
             </div>
-            {/* Row 2: token breakdown */}
-            <div className="mt-3 grid grid-cols-2 gap-x-8 gap-y-2 border-t border-border/30 pt-3 sm:grid-cols-4">
-              <div>
-                <dt className="text-muted">tokens in</dt>
-                <dd className="text-fg">{BENCHMARK_META.totalTokensIn}</dd>
-              </div>
-              <div>
-                <dt className="text-muted">tokens out</dt>
-                <dd className="text-fg">{BENCHMARK_META.totalTokensOut}</dd>
-              </div>
-              <div>
-                <dt className="text-muted">cache read</dt>
-                <dd className="text-fg">{BENCHMARK_META.totalCacheRead}</dd>
-              </div>
-              <div>
-                <dt className="text-muted">cache write</dt>
-                <dd className="text-fg">{BENCHMARK_META.totalCacheWrite}</dd>
-              </div>
+            <div>
+              <dt className="text-muted">sessions</dt>
+              <dd className="text-fg">{BENCHMARK_META.sessions}</dd>
+            </div>
+            <div>
+              <dt className="text-muted">messages</dt>
+              <dd className="text-fg">{BENCHMARK_META.messages}</dd>
+            </div>
+          </dl>
+          <dl className="font-mono text-xs mt-3 grid grid-cols-2 gap-x-8 gap-y-2 border-t border-border/30 pt-3 sm:grid-cols-4">
+            <div>
+              <dt className="text-muted">tokens in</dt>
+              <dd className="text-fg">{BENCHMARK_META.totalTokensIn}</dd>
+            </div>
+            <div>
+              <dt className="text-muted">tokens out</dt>
+              <dd className="text-fg">{BENCHMARK_META.totalTokensOut}</dd>
+            </div>
+            <div>
+              <dt className="text-muted">cache read</dt>
+              <dd className="text-fg">{BENCHMARK_META.totalCacheRead}</dd>
+            </div>
+            <div>
+              <dt className="text-muted">cache write</dt>
+              <dd className="text-fg">{BENCHMARK_META.totalCacheWrite}</dd>
             </div>
           </dl>
           <p className="mt-3 text-xs text-muted">
@@ -154,7 +151,7 @@ function RaceBar() {
     <div ref={rootRef} className="mx-auto mt-16 max-w-2xl space-y-10">
       {SPEED_RACE_GROUPS.map((group) => (
         <div key={group.label}>
-          <p className="mb-3 font-mono text-xs text-muted/60">{group.label}</p>
+          <p className="mb-3 font-mono text-xs text-muted">{group.label}</p>
           <div className="space-y-3">
             {group.contenders.map((contender) => (
               <div key={contender.name} className="group">
@@ -182,7 +179,7 @@ function RaceBar() {
               </div>
             ))}
             {/* Scale axis: 0 on left, round ceiling on right */}
-            <div className="flex justify-between font-mono text-[10px] text-muted/40">
+            <div className="flex justify-between font-mono text-[10px] text-muted">
               <span>0</span>
               <span>{group.scaleMax}</span>
             </div>

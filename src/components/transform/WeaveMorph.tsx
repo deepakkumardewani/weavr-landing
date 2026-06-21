@@ -67,7 +67,7 @@ export function WeaveMorph({ events }: { events: DemoEvent[] }) {
       gsap.set(nodes, { opacity: 0, scale: 0.85 });
       gsap.set(renderRows, { opacity: 0, y: 24 });
       gsap.set(progressRail, { scaleX: 0 });
-      gsap.set(captions, { opacity: 0.3 });
+      gsap.set(captions, { opacity: 0.65 });
       gsap.set(captions[0], { opacity: 1 });
       gsap.set(glosses, { opacity: 0 });
       gsap.set(glosses[0], { opacity: 1 });
@@ -169,7 +169,7 @@ function crossfadeCaption(
   to: number,
   at: number,
 ) {
-  tl.to(captions[from], { opacity: 0.3, duration: 0.8 }, at);
+  tl.to(captions[from], { opacity: 0.65, duration: 0.8 }, at);
   tl.to(captions[to], { opacity: 1, duration: 0.8 }, at);
   // Glosses are stacked, so hand off sequentially (out, then in) rather than
   // cross-fading — otherwise both sit at ~50% mid-scrub and overprint.
@@ -183,7 +183,7 @@ function ParseLayer({ rawLines, fields }: { rawLines: string[]; fields: ParseFie
     <div data-layer="parse" className="absolute inset-0 flex flex-col justify-start gap-8 pt-2">
       <pre
         aria-hidden="true"
-        className="pointer-events-none select-none space-y-1 overflow-hidden whitespace-pre font-mono text-[11px] leading-5 text-muted/40"
+        className="pointer-events-none select-none space-y-1 overflow-hidden whitespace-pre font-mono text-[11px] leading-5 text-fg/65"
       >
         {rawLines.map((line, index) => (
           <div key={index} className="truncate">
@@ -280,7 +280,7 @@ function Stepper() {
       <ol className="grid grid-cols-3 gap-4">
         {MECHANISM.map((word, index) => (
           <li key={word} className="flex flex-col gap-1.5">
-            <span data-caption className="flex items-baseline gap-2 text-accent-strong">
+            <span data-caption className="flex items-baseline gap-2 text-fg">
               <span className="font-mono text-[10px] tracking-[0.15em] tabular-nums">
                 0{index + 1}
               </span>

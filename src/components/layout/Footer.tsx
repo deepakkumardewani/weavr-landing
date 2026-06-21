@@ -12,7 +12,7 @@ export function Footer() {
     <footer className="theme-dark border-t border-border bg-bg px-6 py-16 text-fg">
       <div className="mx-auto max-w-5xl space-y-10">
         {/* Closing statement */}
-        <p className="font-mono text-sm text-muted/70">
+        <p className="font-mono text-sm text-muted">
           Your sessions. <span className="text-accent">Rendered.</span> Local.
         </p>
 
@@ -43,7 +43,7 @@ export function Footer() {
 
         {/* Bottom strip: inspiration credit left, copyright right */}
         <div className="flex flex-col gap-2 border-t border-border/40 pt-6 sm:flex-row sm:items-center sm:justify-between">
-          <p className="text-xs text-muted/50">
+          <p className="text-xs text-muted">
             Inspired by{" "}
             <a
               href={LINKS.claudeCodeLog}
@@ -54,7 +54,7 @@ export function Footer() {
               claude-code-log
             </a>
           </p>
-          <p className="font-mono text-xs text-muted/40">© {new Date().getFullYear()} weavr</p>
+          <p className="font-mono text-xs text-muted">© {new Date().getFullYear()} weavr</p>
         </div>
       </div>
     </footer>
