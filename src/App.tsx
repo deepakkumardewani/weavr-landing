@@ -1,4 +1,5 @@
 import { useRef } from "react";
+import { Analytics } from "@vercel/analytics/react";
 import { useScrollBridge } from "./hooks/useScrollBridge";
 import { useThemeScroll } from "./hooks/useThemeScroll";
 import { Header } from "./components/layout/Header";
@@ -10,6 +11,7 @@ import { SpeedStats } from "./components/speed/SpeedStats";
 import { FeatureGrid } from "./components/features/FeatureGrid";
 import { InstallSection } from "./components/install/InstallSection";
 import { Footer } from "./components/layout/Footer";
+import { ScrollToTop } from "./components/ui/ScrollToTop";
 import { demoSession } from "./data/demo-session";
 
 /**
@@ -42,6 +44,8 @@ export default function App() {
         <InstallSection />
       </main>
       <Footer />
+      <ScrollToTop />
+      <Analytics />
     </>
   );
 }
