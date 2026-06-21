@@ -88,9 +88,16 @@ export function FeatureGrid() {
             <li
               key={feature.title}
               data-feature
-              className="rounded-xl border border-border bg-surface/50 p-6 transition-[colors,transform] duration-200 hover:-translate-y-0.5 hover:border-accent/50 motion-reduce:hover:translate-y-0"
+              className="group relative overflow-hidden rounded-xl border border-border bg-surface/50 p-6 transition-[colors,transform] duration-200 hover:-translate-y-0.5 hover:border-accent/50 motion-reduce:hover:translate-y-0"
             >
-              <h3 className="mb-2 font-medium">{feature.title}</h3>
+              {/* top accent line scales in from left on hover */}
+              <span
+                aria-hidden="true"
+                className="absolute inset-x-0 top-0 h-px origin-left scale-x-0 bg-accent transition-transform duration-300 ease-out group-hover:scale-x-100 motion-reduce:hidden"
+              />
+              <h3 className="mb-2 font-medium transition-colors duration-200 group-hover:text-accent motion-reduce:transition-none">
+                {feature.title}
+              </h3>
               <p className="text-sm leading-relaxed text-muted">{feature.body}</p>
             </li>
           ))}

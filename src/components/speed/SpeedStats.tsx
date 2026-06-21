@@ -17,13 +17,16 @@ export function SpeedStats() {
       className="theme-dark grid min-h-dvh place-items-center bg-bg px-6 py-24 text-fg"
     >
       <div className="w-full max-w-5xl">
-        <SectionHeading eyebrow="Fast" title="Built in Rust. Renders before you blink." />
+        <SectionHeading
+          eyebrow="Fast"
+          title="Built from ground up in Rust. Renders before you blink."
+        />
 
         <div className="grid gap-6 sm:grid-cols-3">
           {SPEED_STATS.map((stat) => (
             <div
               key={stat.label}
-              className="rounded-xl border border-border bg-surface/50 p-8 text-center"
+              className="rounded-xl border border-border bg-surface/50 p-8 text-center transition-all duration-200 hover:border-accent/50 hover:bg-surface/80 hover:scale-[1.02] motion-reduce:hover:scale-100"
             >
               <CountUp
                 value={stat.value}
@@ -59,7 +62,9 @@ function BenchmarkDetails() {
       >
         <span
           aria-hidden="true"
-          className={`transition-transform duration-200 motion-reduce:transition-none ${open ? "rotate-90" : ""}`}
+          className={`transition-transform duration-200 motion-reduce:transition-none ${
+            open ? "rotate-90" : ""
+          }`}
         >
           ▶
         </span>
@@ -68,49 +73,52 @@ function BenchmarkDetails() {
 
       <div
         id="benchmark-details"
-        hidden={!open}
-        className="mt-3 rounded-lg border border-border bg-surface/50 px-5 py-4"
+        className={`overflow-hidden transition-all duration-300 ease-out motion-reduce:transition-none ${
+          open ? "max-h-96 opacity-100 mt-3" : "max-h-0 opacity-0 pointer-events-none"
+        }`}
       >
-        <dl className="font-mono text-xs">
-          {/* Row 1: corpus stats — same 4-col grid as row 2 so columns align */}
-          <div className="grid grid-cols-2 gap-x-8 gap-y-2 sm:grid-cols-4">
-            <div>
-              <dt className="text-muted">projects</dt>
-              <dd className="text-fg">{BENCHMARK_META.projects}</dd>
+        <div className="rounded-lg border border-border bg-surface/50 px-5 py-4">
+          <dl className="font-mono text-xs">
+            {/* Row 1: corpus stats — same 4-col grid as row 2 so columns align */}
+            <div className="grid grid-cols-2 gap-x-8 gap-y-2 sm:grid-cols-4">
+              <div>
+                <dt className="text-muted">projects</dt>
+                <dd className="text-fg">{BENCHMARK_META.projects}</dd>
+              </div>
+              <div>
+                <dt className="text-muted">sessions</dt>
+                <dd className="text-fg">{BENCHMARK_META.sessions}</dd>
+              </div>
+              <div>
+                <dt className="text-muted">messages</dt>
+                <dd className="text-fg">{BENCHMARK_META.messages}</dd>
+              </div>
             </div>
-            <div>
-              <dt className="text-muted">sessions</dt>
-              <dd className="text-fg">{BENCHMARK_META.sessions}</dd>
+            {/* Row 2: token breakdown */}
+            <div className="mt-3 grid grid-cols-2 gap-x-8 gap-y-2 border-t border-border/30 pt-3 sm:grid-cols-4">
+              <div>
+                <dt className="text-muted">tokens in</dt>
+                <dd className="text-fg">{BENCHMARK_META.totalTokensIn}</dd>
+              </div>
+              <div>
+                <dt className="text-muted">tokens out</dt>
+                <dd className="text-fg">{BENCHMARK_META.totalTokensOut}</dd>
+              </div>
+              <div>
+                <dt className="text-muted">cache read</dt>
+                <dd className="text-fg">{BENCHMARK_META.totalCacheRead}</dd>
+              </div>
+              <div>
+                <dt className="text-muted">cache write</dt>
+                <dd className="text-fg">{BENCHMARK_META.totalCacheWrite}</dd>
+              </div>
             </div>
-            <div>
-              <dt className="text-muted">messages</dt>
-              <dd className="text-fg">{BENCHMARK_META.messages}</dd>
-            </div>
-          </div>
-          {/* Row 2: token breakdown */}
-          <div className="mt-3 grid grid-cols-2 gap-x-8 gap-y-2 border-t border-border/30 pt-3 sm:grid-cols-4">
-            <div>
-              <dt className="text-muted">tokens in</dt>
-              <dd className="text-fg">{BENCHMARK_META.totalTokensIn}</dd>
-            </div>
-            <div>
-              <dt className="text-muted">tokens out</dt>
-              <dd className="text-fg">{BENCHMARK_META.totalTokensOut}</dd>
-            </div>
-            <div>
-              <dt className="text-muted">cache read</dt>
-              <dd className="text-fg">{BENCHMARK_META.totalCacheRead}</dd>
-            </div>
-            <div>
-              <dt className="text-muted">cache write</dt>
-              <dd className="text-fg">{BENCHMARK_META.totalCacheWrite}</dd>
-            </div>
-          </div>
-        </dl>
-        <p className="mt-3 text-xs text-muted">
-          Measured with hyperfine (3 runs, --no-cache) on macOS against{" "}
-          <span className="text-fg">~/.claude/projects/</span>.
-        </p>
+          </dl>
+          <p className="mt-3 text-xs text-muted">
+            Measured with hyperfine (3 runs, --no-cache) on macOS against{" "}
+            <span className="text-fg">~/.claude/projects/</span>.
+          </p>
+        </div>
       </div>
     </div>
   );
@@ -149,17 +157,25 @@ function RaceBar() {
           <p className="mb-3 font-mono text-xs text-muted/60">{group.label}</p>
           <div className="space-y-3">
             {group.contenders.map((contender) => (
-              <div key={contender.name}>
+              <div key={contender.name} className="group">
                 <div className="mb-1.5 flex items-baseline justify-between font-mono text-xs">
-                  <span className={contender.accent ? "text-accent" : "text-muted"}>
+                  <span
+                    className={`transition-colors duration-150 motion-reduce:transition-none ${
+                      contender.accent ? "text-accent" : "text-muted group-hover:text-fg"
+                    }`}
+                  >
                     {contender.name}
                   </span>
-                  <span className="text-muted">{contender.time}</span>
+                  <span className="text-muted transition-colors duration-150 group-hover:text-fg motion-reduce:transition-none">
+                    {contender.time}
+                  </span>
                 </div>
                 <div className="relative h-2.5 overflow-hidden rounded-full bg-surface-2">
                   <div
                     data-bar-fill
-                    className={`h-full rounded-full ${contender.accent ? "bg-accent" : "bg-muted/50"}`}
+                    className={`h-full rounded-full ${
+                      contender.accent ? "bg-accent" : "bg-muted/50"
+                    }`}
                     style={{ width: `${contender.fraction * 100}%` }}
                   />
                 </div>

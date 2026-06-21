@@ -59,7 +59,7 @@ export function InstallSection() {
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_1px_1fr]">
           {/* ── Install ─────────────────────────────────────── */}
           <div className="pb-12 lg:pb-0 lg:pr-12">
-            <SectionHeading eyebrow="Install" title="One command. No dependencies." align="left" />
+            <SectionHeading eyebrow="Install" title="One command. Ready in seconds." align="left" />
 
             <div
               role="tablist"
@@ -111,6 +111,15 @@ export function InstallSection() {
                 </li>
               ))}
             </ul>
+            <a
+              href="https://github.com/deepakkumardewani/weavr"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-8 inline-flex items-center gap-1.5 text-sm text-muted transition-colors hover:text-fg"
+            >
+              More info on GitHub
+              <span aria-hidden="true">→</span>
+            </a>
           </div>
         </div>
       </div>

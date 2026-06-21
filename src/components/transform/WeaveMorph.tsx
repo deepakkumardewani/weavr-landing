@@ -133,9 +133,12 @@ export function WeaveMorph({ events }: { events: DemoEvent[] }) {
       ref={sectionRef}
       data-weave-section
       aria-label="How weavr weaves raw JSONL into a readable conversation"
-      className="relative grid min-h-dvh place-items-center overflow-hidden px-6 text-fg"
+      className="relative z-10 grid min-h-dvh place-items-center overflow-hidden px-6 text-fg"
     >
-      <div className="w-full max-w-2xl">
+      {/* Frosted-glass panel: the fixed ribbon falls behind this panel (z-10
+          on the section keeps it above the fixed stream), so backdrop-blur
+          softens the ribbon under the content while beats stay crisp on top. */}
+      <div className="w-full max-w-2xl rounded-2xl border border-border/40 bg-bg/75 px-6 py-8 backdrop-blur-md">
         {/* Persistent frame: orients the viewer while only the stage morphs. */}
         <SectionHeading
           align="left"
